@@ -1,0 +1,257 @@
+{% extends 'shecare/base.html' %}
+{% load static %}
+
+{% block title %}
+দেশি মিল প্ল্যানার ও গ্লাইসেমিক ইনডেক্স ক্যালকুলেটর - SheCare BD
+{% endblock %}
+
+{% block content %}
+<div class="py-12 bg-slate-50 min-h-screen">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header Banner -->
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">
+                ইউনিক ফিচার • পুষ্টি ও ইনসুলিন ব্যালেন্স
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-navy-900 mt-3 tracking-tight">
+                দেশি PCOS মিল প্ল্যানার ও গ্লাইসেমিক লোড ক্যালকুলেটর
+            </h1>
+            <p class="text-slate-600 text-sm sm:text-base mt-2">
+                পিসিওএস-এর মূল শত্রু রক্তে হঠাৎ ইনসুলিনের তীব্র স্পাইক। আমাদের দেশি খাবারের গ্লাইসেমিক স্কোর নির্বাচন করুন এবং তাৎক্ষণিকভাবে আপনার আজকের খাদ্যতালিকার হরমোন ব্যালেন্স স্কোর জানুন।
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left: Interactive Food Picker -->
+            <div class="lg:col-span-7 space-y-6">
+                
+                <!-- Breakfast Card -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="flex items-center gap-2.5 text-slate-900 font-bold text-sm">
+                        <i class="fa-solid fa-mug-hot text-amber-500"></i>
+                        <span>১. সকালের নাস্তা (Breakfast)</span>
+                    </div>
+
+                    <div class="space-y-2 text-xs">
+                        <label class="p-3.5 rounded-xl border border-slate-200 hover:border-emerald-500 cursor-pointer flex items-center justify-between has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 transition">
+                            <div class="flex items-center gap-2.5">
+                                <input type="radio" name="breakfast" value="95" checked onchange="calculateScore()" class="text-emerald-600 focus:ring-0">
+                                <div>
+                                    <strong class="text-slate-900 block">২টি লাল আটার রুটি + দেশি সবজি ভাজি + ১টি সিদ্ধ ডিম</strong>
+                                    <span class="text-slate-500 text-[11px]">কম গ্লাইসেমিক ইনডেক্স (Low GI) • দীর্ঘক্ষণ পেট ভরা রাখে</span>
+                                </div>
+                            </div>
+                            <span class="text-emerald-700 font-bold bg-emerald-100 px-2 py-0.5 rounded text-[10px]">A+ স্কোর</span>
+                        </label>
+
+                        <label class="p-3.5 rounded-xl border border-slate-200 hover:border-emerald-500 cursor-pointer flex items-center justify-between has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 transition">
+                            <div class="flex items-center gap-2.5">
+                                <input type="radio" name="breakfast" value="90" onchange="calculateScore()" class="text-emerald-600 focus:ring-0">
+                                <div>
+                                    <strong class="text-slate-900 block">ওটস খিচুড়ি পালং শাক ও ডাল দিয়ে + সিদ্ধ ডিম</strong>
+                                    <span class="text-slate-500 text-[11px]">প্রচুর বিটা-গ্লুকান ফাইবার • রক্তের ইনসুলিন স্বাভাবিক রাখে</span>
+                                </div>
+                            </div>
+                            <span class="text-emerald-700 font-bold bg-emerald-100 px-2 py-0.5 rounded text-[10px]">A স্কোর</span>
+                        </label>
+
+                        <label class="p-3.5 rounded-xl border border-slate-200 hover:border-rose-400 cursor-pointer flex items-center justify-between has-[:checked]:border-rose-500 has-[:checked]:bg-rose-50 transition">
+                            <div class="flex items-center gap-2.5">
+                                <input type="radio" name="breakfast" value="35" onchange="calculateScore()" class="text-rose-500 focus:ring-0">
+                                <div>
+                                    <strong class="text-slate-900 block">ডালডায় ভাজা ময়দার পরোটা + সুজির মিষ্টি হালুয়া</strong>
+                                    <span class="text-rose-600 text-[11px]">উচ্চ ইনসুলিন স্পাইক (High GI) • ওভারিয়ান অ্যান্ড্রোজেন বাড়ায়</span>
+                                </div>
+                            </div>
+                            <span class="text-rose-700 font-bold bg-rose-100 px-2 py-0.5 rounded text-[10px]">বর্জনীয়!</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Lunch Card -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="flex items-center gap-2.5 text-slate-900 font-bold text-sm">
+                        <i class="fa-solid fa-bowl-rice text-medical-600"></i>
+                        <span>২. দুপুরের প্রধান খাবার (Lunch)</span>
+                    </div>
+
+                    <div class="space-y-2 text-xs">
+                        <label class="p-3.5 rounded-xl border border-slate-200 hover:border-emerald-500 cursor-pointer flex items-center justify-between has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 transition">
+                            <div class="flex items-center gap-2.5">
+                                <input type="radio" name="lunch" value="95" checked onchange="calculateScore()" class="text-emerald-600 focus:ring-0">
+                                <div>
+                                    <strong class="text-slate-900 block">১ কাপ লাল চালের ভাত + রুই মাছের পাতলা ঝোল + প্রচুর পালং/কচু শাক + করলা</strong>
+                                    <span class="text-slate-500 text-[11px]">ওমেগা-৩ ও আয়রন সমৃদ্ধ • গ্লুকোজ ধীরে ছড়ায়</span>
+                                </div>
+                            </div>
+                            <span class="text-emerald-700 font-bold bg-emerald-100 px-2 py-0.5 rounded text-[10px]">A+ স্কোর</span>
+                        </label>
+
+                        <label class="p-3.5 rounded-xl border border-slate-200 hover:border-emerald-500 cursor-pointer flex items-center justify-between has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 transition">
+                            <div class="flex items-center gap-2.5">
+                                <input type="radio" name="lunch" value="85" onchange="calculateScore()" class="text-emerald-600 focus:ring-0">
+                                <div>
+                                    <strong class="text-slate-900 block">দালিয়া খিচুড়ি + দেশি মুরগির হালকা ঝোল ও পেঁপে তরকারি</strong>
+                                    <span class="text-slate-500 text-[11px]">সহজপাচ্য ফাইবার ও লিন প্রোটিন</span>
+                                </div>
+                            </div>
+                            <span class="text-emerald-700 font-bold bg-emerald-100 px-2 py-0.5 rounded text-[10px]">A স্কোর</span>
+                        </label>
+
+                        <label class="p-3.5 rounded-xl border border-slate-200 hover:border-rose-400 cursor-pointer flex items-center justify-between has-[:checked]:border-rose-500 has-[:checked]:bg-rose-50 transition">
+                            <div class="flex items-center gap-2.5">
+                                <input type="radio" name="lunch" value="40" onchange="calculateScore()" class="text-rose-500 focus:ring-0">
+                                <div>
+                                    <strong class="text-slate-900 block">২ কাপ সাদা পালিশ করা মিনিকেট ভাত + খাসির মাংসের তেল-ভুনা</strong>
+                                    <span class="text-rose-600 text-[11px]">তীব্র স্যাচুরেটেড ফ্যাট ও উচ্চ গ্লাইসেমিক লোড</span>
+                                </div>
+                            </div>
+                            <span class="text-rose-700 font-bold bg-rose-100 px-2 py-0.5 rounded text-[10px]">ঝুঁকিপূর্ণ</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Afternoon Snacks Card -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="flex items-center gap-2.5 text-slate-900 font-bold text-sm">
+                        <i class="fa-solid fa-leaf text-teal-600"></i>
+                        <span>৩. বিকেলের নাস্তা (Evening Snacks)</span>
+                    </div>
+
+                    <div class="space-y-2 text-xs">
+                        <label class="p-3.5 rounded-xl border border-slate-200 hover:border-emerald-500 cursor-pointer flex items-center justify-between has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 transition">
+                            <div class="flex items-center gap-2.5">
+                                <input type="radio" name="snack" value="95" checked onchange="calculateScore()" class="text-emerald-600 focus:ring-0">
+                                <div>
+                                    <strong class="text-slate-900 block">দারুচিনি চা বা গ্রিন টি + ভাজা দেশি ছোলা ও শসা সালাদ</strong>
+                                    <span class="text-slate-500 text-[11px]">মেটাবলিজম বুস্টার • অ্যান্টিঅক্সিডেন্ট ও উদ্ভিজ্জ প্রোটিন</span>
+                                </div>
+                            </div>
+                            <span class="text-emerald-700 font-bold bg-emerald-100 px-2 py-0.5 rounded text-[10px]">A+ স্কোর</span>
+                        </label>
+
+                        <label class="p-3.5 rounded-xl border border-slate-200 hover:border-emerald-500 cursor-pointer flex items-center justify-between has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 transition">
+                            <div class="flex items-center gap-2.5">
+                                <input type="radio" name="snack" value="90" onchange="calculateScore()" class="text-emerald-600 focus:ring-0">
+                                <div>
+                                    <strong class="text-slate-900 block">একমুঠো কাঠবাদাম (Almonds) ও মিষ্টি কুমড়ার বীজ</strong>
+                                    <span class="text-slate-500 text-[11px]">ম্যাগনেসিয়াম ও জিঙ্ক সমৃদ্ধ • ক্র্যাম্পিং কমায়</span>
+                                </div>
+                            </div>
+                            <span class="text-emerald-700 font-bold bg-emerald-100 px-2 py-0.5 rounded text-[10px]">A স্কোর</span>
+                        </label>
+
+                        <label class="p-3.5 rounded-xl border border-slate-200 hover:border-rose-400 cursor-pointer flex items-center justify-between has-[:checked]:border-rose-500 has-[:checked]:bg-rose-50 transition">
+                            <div class="flex items-center gap-2.5">
+                                <input type="radio" name="snack" value="25" onchange="calculateScore()" class="text-rose-500 focus:ring-0">
+                                <div>
+                                    <strong class="text-slate-900 block">ঘন দুধ-চিনির চা + ২টি গরম শিঙাড়া ও বাকরখানি</strong>
+                                    <span class="text-rose-600 text-[11px]">মারাত্মক ট্রান্স-ফ্যাট ও চিনি • পিসিওএস সিস্ট গঠনের মূল কারণ</span>
+                                </div>
+                            </div>
+                            <span class="text-rose-700 font-bold bg-rose-100 px-2 py-0.5 rounded text-[10px]">মারাত্মক ক্ষতিকর!</span>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right: Real-time Hormone Meter & Desi Diet Guide -->
+            <div class="lg:col-span-5 sticky top-28 space-y-6">
+                
+                <!-- Live Score Dashboard -->
+                <div class="bg-navy-900 text-white p-7 rounded-3xl shadow-xl border border-slate-800 text-center relative overflow-hidden">
+                    <span class="text-xs uppercase tracking-widest text-slate-400 font-bold block mb-1">
+                        আজকের ডায়েটের হরমোন স্কোর
+                    </span>
+
+                    <div id="score-display" class="text-5xl font-black text-emerald-400 font-mono my-2">
+                        95%
+                    </div>
+
+                    <div id="grade-badge" class="inline-flex px-3.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        আদর্শ হরমোন ব্যালেন্সিং খাদ্যতালিকা (Optimal)
+                    </div>
+
+                    <div class="w-full bg-slate-800 rounded-full h-3 my-5 overflow-hidden">
+                        <div id="score-bar" class="h-3 rounded-full bg-emerald-500 transition-all duration-500" style="width: 95%"></div>
+                    </div>
+
+                    <p id="feedback-text" class="text-xs text-slate-300 leading-relaxed">
+                        আপনার নির্বাচিত দেশি খাবারগুলো রক্তে ইনসুলিনের ভারসাম্য বজায় রাখবে এবং টেস্টোস্টেরন হরমোন বৃদ্ধি রোধ করবে।
+                    </p>
+                </div>
+
+                <!-- 5 Golden Desi Food Rules for PCOS -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
+                    <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-award text-amber-500"></i>
+                        বাংলাদেশের চিকিৎসকদের ৫টি স্বর্ণালী খাদ্য নিয়ম:
+                    </h4>
+                    <ul class="text-xs text-slate-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="font-bold text-medical-600">•</span>
+                            <span><strong>খাবার প্লেটের নিয়ম:</strong> ৫০% দেশি শাকসবজি, ২৫% প্রোটিন (মাছ/ডিম/ডাল) এবং মাত্র ২৫% লাল চাল বা আটার রুটি।</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="font-bold text-medical-600">•</span>
+                            <span><strong>মেথি পানি:</strong> সকালে খালি পেটে মেথি ভেজানো পানি ইনসুলিনের কোষীয় শোষণ ক্ষমতা ৪০% পর্যন্ত বৃদ্ধি করে।</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="font-bold text-medical-600">•</span>
+                            <span><strong>দারুচিনির নির্যাস:</strong> এক টুকরো দারুচিনি চা খেলে পিরিয়ড নিয়মিত হতে সাহায্য করে।</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="font-bold text-medical-600">•</span>
+                            <span><strong>বিকেলের রাস্তাঘাটের খাবার পরিহার:</strong> ডালডা ও পোড়া তেলে ভাজা শিঙাড়া ও পুরি বন্ধ করাই অর্ধেক চিকিৎসা।</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+function calculateScore() {
+    const b = parseInt(document.querySelector('input[name="breakfast"]:checked')?.value || 95);
+    const l = parseInt(document.querySelector('input[name="lunch"]:checked')?.value || 95);
+    const s = parseInt(document.querySelector('input[name="snack"]:checked')?.value || 95);
+
+    const avg = Math.round((b + l + s) / 3);
+    
+    const display = document.getElementById('score-display');
+    const bar = document.getElementById('score-bar');
+    const badge = document.getElementById('grade-badge');
+    const feedback = document.getElementById('feedback-text');
+
+    display.innerText = avg + "%";
+    bar.style.width = avg + "%";
+
+    if (avg >= 85) {
+        display.className = "text-5xl font-black text-emerald-400 font-mono my-2";
+        bar.className = "h-3 rounded-full bg-emerald-500 transition-all duration-500";
+        badge.className = "inline-flex px-3.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+        badge.innerText = "আদর্শ হরমোন ব্যালেন্সিং খাদ্যতালিকা (Optimal)";
+        feedback.innerText = "আপনার নির্বাচিত খাবারগুলো রক্তে ইনসুলিনের ভারসাম্য বজায় রাখবে এবং টেস্টোস্টেরন হরমোন বৃদ্ধি রোধ করবে।";
+    } else if (avg >= 60) {
+        display.className = "text-5xl font-black text-amber-400 font-mono my-2";
+        bar.className = "h-3 rounded-full bg-amber-500 transition-all duration-500";
+        badge.className = "inline-flex px-3.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30";
+        badge.innerText = "মাঝারি ভারসাম্য (Moderate GI)";
+        feedback.innerText = "কিছু অস্বাস্থ্যকর খাবার অন্তর্ভুক্ত রয়েছে। ভাজাপোড়া ও অতিরিক্ত চালের ভাত পরিহার করে শাকসবজি ও বীজ বাড়ান।";
+    } else {
+        display.className = "text-5xl font-black text-rose-400 font-mono my-2";
+        bar.className = "h-3 rounded-full bg-rose-500 transition-all duration-500";
+        badge.className = "inline-flex px-3.5 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30";
+        badge.innerText = "উচ্চ ইনসুলিন স্পাইক ও ঝুঁকির খাদ্যতালিকা (High Risk)";
+        feedback.innerText = "সাবধান! ময়দা, ডালডায় ভাজা খাবার ও চিনি রক্তে হরমোন বিপর্যয় ঘটাবে এবং পিরিয়ডের মারাত্মক অনিয়ম তৈরি করবে।";
+    }
+}
+</script>
+{% endblock %}
