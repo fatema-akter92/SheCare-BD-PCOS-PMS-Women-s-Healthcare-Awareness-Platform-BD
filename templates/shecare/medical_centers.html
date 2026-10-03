@@ -1,0 +1,96 @@
+{% extends 'shecare/base.html' %}
+{% load static %}
+
+{% block title %}
+পার্টনার হাসপাতাল ও অফলাইন ডায়াগনস্টিক সেন্টার - SheCare BD
+{% endblock %}
+
+{% block content %}
+<div class="py-12 bg-slate-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <span class="text-xs font-bold uppercase tracking-widest text-medical-600 bg-medical-100 px-3 py-1 rounded-full">
+                দেশব্যাপী স্বাস্থ্যসেবা নেটওয়ার্ক
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-navy-900 mt-3 tracking-tight">
+                পার্টনার হাসপাতাল ও অফলাইন ডায়াগনস্টিক সেন্টার
+            </h1>
+            <p class="text-slate-600 text-sm sm:text-base mt-2">
+                ঢাকা, চট্টগ্রাম, সিলেট ও রাজশাহীর শীর্ষ স্বাস্থ্যসেবা কেন্দ্রে সরাসরি আমাদের রেফারেন্সে অভিজ্ঞ ডাক্তারের চেম্বার ও ২০% ছাড়ে ল্যাব টেস্টের সুবিধা নিন।
+            </p>
+        </div>
+
+        <!-- City Filter -->
+        <div class="flex flex-wrap items-center justify-center gap-2 mb-10">
+            <a href="{% url 'medical_centers' %}" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition {% if not selected_city %}bg-medical-600 text-white shadow-sm{% else %}bg-white border border-slate-200 text-slate-700 hover:bg-slate-50{% endif %}">
+                সকল শহর (All BD)
+            </a>
+            {% for code, name in cities %}
+            <a href="{% url 'medical_centers' %}?city={{ code }}" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition {% if selected_city == code %}bg-medical-600 text-white shadow-sm{% else %}bg-white border border-slate-200 text-slate-700 hover:bg-slate-50{% endif %}">
+                {{ name }}
+            </a>
+            {% endfor %}
+        </div>
+
+        <!-- Centers Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for center in centers %}
+            <div class="bg-white rounded-3xl border border-slate-200/90 hover:border-medical-400 shadow-sm hover:shadow-xl transition flex flex-col justify-between overflow-hidden group">
+                <div>
+                    <div class="relative h-48 overflow-hidden bg-slate-100">
+                        <img src="{{ center.image_url }}" alt="{{ center.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-medical-900/90 text-white text-xs font-bold px-3 py-1 rounded-xl backdrop-blur-sm">
+                            {{ center.city }}
+                        </span>
+                        <span class="absolute top-3 right-3 bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-xl shadow-sm">
+                            <i class="fa-solid fa-percent mr-0.5"></i> {{ center.discount_percentage }}% ছাড়
+                        </span>
+                    </div>
+
+                    <div class="p-6 space-y-3">
+                        <h3 class="text-xl font-bold text-slate-900 leading-snug group-hover:text-medical-700 transition">
+                            {{ center.name }}
+                        </h3>
+                        <p class="text-xs text-medical-700 font-semibold">
+                            {{ center.branch_name }}
+                        </p>
+                        <p class="text-xs text-slate-500 leading-relaxed">
+                            <i class="fa-solid fa-location-dot text-slate-400 mr-1"></i> {{ center.address }}
+                        </p>
+
+                        <!-- Facilities Badges -->
+                        <div class="pt-2 flex flex-wrap gap-2 text-[11px] font-medium text-slate-600">
+                            {% if center.has_ultrasound %}
+                            <span class="bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200">
+                                <i class="fa-solid fa-check text-emerald-600 mr-1"></i> আল্ট্রাসনোগ্রাম (USG)
+                            </span>
+                            {% endif %}
+                            {% if center.has_lab %}
+                            <span class="bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200">
+                                <i class="fa-solid fa-check text-emerald-600 mr-1"></i> হরমোন ও রক্ত ল্যাব
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Hotline / Contact -->
+                        <div class="pt-3 border-t border-slate-100 text-xs text-slate-700 flex items-center justify-between">
+                            <span><i class="fa-solid fa-phone text-medical-600 mr-1"></i> {{ center.phone }}</span>
+                            <span class="font-bold text-navy-900">হটলাইন: {{ center.hotline }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 pt-0">
+                    <a href="{% url 'diagnostic_tests' %}" class="w-full inline-flex items-center justify-center gap-1.5 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold text-white bg-medical-600 hover:bg-medical-700 shadow-sm transition">
+                        <i class="fa-solid fa-flask-vial"></i> এই সেন্টারে টেস্ট বুক করুন
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}
