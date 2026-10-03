@@ -1,0 +1,192 @@
+{% extends 'shecare/base.html' %}
+{% load static %}
+
+{% block title %}
+ডায়াগনস্টিক টেস্ট ও অফলাইন ল্যাব বুকিং - SheCare BD
+{% endblock %}
+
+{% block content %}
+<div class="py-12 bg-slate-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header Banner -->
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-xs font-bold uppercase tracking-widest text-medical-600 bg-medical-100 px-3 py-1 rounded-full">
+                ল্যাব প্রোটোকল ও স্পেশাল ছাড়
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-navy-900 mt-3 tracking-tight">
+                PCOS ও PMS প্রাথমিক ডায়াগনস্টিক টেস্ট প্যানেল
+            </h1>
+            <p class="text-slate-600 text-sm sm:text-base mt-2">
+                ডাক্তার দেখানোর পূর্বে সঠিক ডায়াগনোসিস নিশ্চিত করতে প্রয়োজনীয় আল্ট্রাসনোগ্রাম ও হরমোন টেস্ট। আমাদের কুপনে পার্টনার ল্যাবে পাচ্ছেন ২০% নিশ্চিত ছাড়।
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Column: Test Catalog & Preparation -->
+            <div class="lg:col-span-7 space-y-6">
+                
+                <!-- Preparation Guidelines Box -->
+                <div class="p-6 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 space-y-2">
+                    <h3 class="text-sm font-bold flex items-center gap-2 text-amber-900">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-600"></i>
+                        টেস্ট দেয়ার পূর্বে অতি প্রয়োজনীয় ক্লিনিক্যাল প্রস্তুতি (Medical Prep):
+                    </h3>
+                    <ul class="text-xs text-amber-800 space-y-1.5 list-disc list-inside">
+                        <li><strong>ফাস্টিং ইনসুলিন ও সুগার:</strong> স্যাম্পল দেয়ার পূর্বে রাতে ১০ থেকে ১২ ঘণ্টা সম্পূর্ণ খালি পেটে থাকতে হবে (শুধু পানি পান করা যাবে)।</li>
+                        <li><strong>LH ও FSH হরমোন:</strong> মাসিকের রক্তপাতের ২য় বা ৩য় দিনে সকাল ৮টা থেকে ১০টার মধ্যে রক্তের স্যাম্পল দেয়া সবচেয়ে নির্ভুল।</li>
+                        <li><strong>আল্ট্রাসনোগ্রাম (USG):</strong> টেস্টের ১ ঘণ্টা আগে ১ থেকে দেড় লিটার পানি খেয়ে প্রস্রাব আটকে রাখতে হবে (ফুল ব্লাডার অপরিহার্য)।</li>
+                    </ul>
+                </div>
+
+                <!-- Tests List -->
+                <div class="space-y-4">
+                    {% for test in tests %}
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm hover:border-medical-300 transition">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                            <div>
+                                <span class="text-[11px] font-mono font-bold bg-medical-50 text-medical-700 px-2 py-0.5 rounded border border-medical-200">
+                                    {{ test.code }}
+                                </span>
+                                <h4 class="text-base font-bold text-slate-900 mt-1">
+                                    {{ test.name_bn }}
+                                </h4>
+                                <span class="text-xs text-slate-500 font-medium">{{ test.name }}</span>
+                            </div>
+                            <div class="text-left sm:text-right">
+                                <span class="text-xs text-slate-400 line-through">৳{{ test.standard_price_bdt|floatformat:0 }}</span>
+                                <div class="text-lg font-black text-emerald-600 font-mono">৳{{ test.discounted_price_bdt|floatformat:0 }}</div>
+                                <span class="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.2 rounded-full">২০% ছাড় অন্তর্ভুক্ত</span>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                            <strong class="text-slate-800">ক্লিনিক্যাল উদ্দেশ্য:</strong> {{ test.purpose_bn }}
+                        </p>
+
+                        <div class="p-3 rounded-xl bg-slate-50 text-[11px] text-slate-600 flex items-center gap-2">
+                            <i class="fa-solid fa-clock-rotate-left text-medical-600"></i>
+                            <span><strong>স্যাম্পল নিয়ম:</strong> {{ test.preparation_instructions }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <!-- Right Column: Lab Booking Form -->
+            <div class="lg:col-span-5 sticky top-28">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-lg space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold mb-2">
+                            <i class="fa-solid fa-tag"></i> স্পেশাল ভাউচার কোড: SHECARE20
+                        </div>
+                        <h3 class="text-xl font-black text-navy-900">
+                            পার্টনার ল্যাবে টেস্ট বুকিং করুন
+                        </h3>
+                        <p class="text-xs text-slate-500 mt-1">
+                            সরাসরি সেন্টারে গিয়ে আমাদের রেফারেন্সে ২০% ছাড়ে স্যাম্পল দিন
+                        </p>
+                    </div>
+
+                    <form method="POST" class="space-y-4">
+                        {% csrf_token %}
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
+                                পার্টনার মেডিকেল সেন্টার নির্বাচন করুন *
+                            </label>
+                            <select name="medical_center" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-medical-500 focus:outline-none text-xs sm:text-sm font-semibold">
+                                {% for center in medical_centers %}
+                                <option value="{{ center.id }}">{{ center.name }} - {{ center.branch_name }} ({{ center.city }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
+                                টেস্ট প্যাকেজ
+                            </label>
+                            <input type="text" name="package_name" readonly value="Complete Initial PCOS & Hormone Panel (5 Tests)" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-medical-800">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
+                                    স্যাম্পল দেয়ার তারিখ *
+                                </label>
+                                <input type="date" name="booking_date" required min="{{ today_str }}" value="{{ today_str }}" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-medical-500 focus:outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
+                                    টাইম স্লট
+                                </label>
+                                <select name="time_slot" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-medical-500 focus:outline-none">
+                                    <option value="08:00 AM - 10:00 AM (Fasting)" selected>08:00 AM - 10:00 AM (সকাল খালি পেটে)</option>
+                                    <option value="10:00 AM - 12:00 PM">10:00 AM - 12:00 PM</option>
+                                    <option value="03:00 PM - 05:00 PM (USG Only)">03:00 PM - 05:00 PM (শুধু USG)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
+                                রোগীর পুরো নাম *
+                            </label>
+                            <input type="text" name="patient_name" required placeholder="যেমন: নুসরাত জাহান" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-medical-500 focus:outline-none">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
+                                    বয়স *
+                                </label>
+                                <input type="number" name="patient_age" required value="22" min="12" max="60" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-medical-500 focus:outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
+                                    মোবাইল নম্বর *
+                                </label>
+                                <input type="tel" name="patient_phone" required placeholder="017XXXXXXXX" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-medical-500 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
+                                ডিসকাউন্ট ভাউচার কোড
+                            </label>
+                            <input type="text" name="voucher_code" value="SHECARE20" class="w-full px-4 py-2.5 rounded-xl bg-cyan-50 border border-cyan-300 text-cyan-900 font-mono font-bold text-xs uppercase">
+                        </div>
+
+                        <!-- Price Breakdown -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-xs">
+                            <div class="flex justify-between text-slate-500">
+                                <span>স্ট্যান্ডার্ড রেগুলার ফি:</span>
+                                <span class="font-mono">৳9,500</span>
+                            </div>
+                            <div class="flex justify-between text-emerald-600 font-bold">
+                                <span>SheCare ভাউচার ছাড় (২০%):</span>
+                                <span class="font-mono">- ৳1,900</span>
+                            </div>
+                            <div class="flex justify-between text-slate-900 font-black text-sm pt-1 border-t border-slate-200">
+                                <span>সর্বমোট ল্যাব পেমেন্ট:</span>
+                                <span class="font-mono text-emerald-600">৳7,600</span>
+                            </div>
+                            <span class="text-[11px] text-slate-400 block pt-1">* টেস্টের ফি সেন্টারে গিয়ে সরাসরি পরিশোধযোগ্য।</span>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-medical-600 to-medical-700 hover:from-medical-700 hover:to-medical-800 shadow-md shadow-medical-600/25 transition">
+                            <i class="fa-solid fa-file-invoice mr-1"></i> ল্যাব ভাউচার জেনারেট করুন
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
