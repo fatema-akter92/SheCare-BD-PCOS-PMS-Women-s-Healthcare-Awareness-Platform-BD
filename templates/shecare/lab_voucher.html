@@ -1,0 +1,108 @@
+{% extends 'shecare/base.html' %}
+{% load static %}
+
+{% block title %}
+ল্যাব ভাউচার: {{ booking.booking_reference }} - SheCare BD
+{% endblock %}
+
+{% block content %}
+<div class="py-12 bg-slate-100 min-h-screen">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6">
+        
+        <!-- Action Buttons -->
+        <div class="mb-6 flex items-center justify-between no-print">
+            <a href="{% url 'diagnostic_tests' %}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-medical-700">
+                <i class="fa-solid fa-arrow-left"></i> টেস্ট তালিকায় ফিরুন
+            </a>
+            <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 shadow-sm transition">
+                <i class="fa-solid fa-print text-medical-600"></i> ভাউচার প্রিন্ট করুন
+            </button>
+        </div>
+
+        <!-- Digital Lab Voucher Card -->
+        <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xl overflow-hidden">
+            
+            <div class="bg-navy-900 text-white p-6 sm:p-8 text-center relative border-b-4 border-emerald-500">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-400/30 mb-3">
+                    <i class="fa-solid fa-tag"></i> ২০% ডিসকাউন্ট ভাউচার সক্রিয়
+                </div>
+                <h1 class="text-xl sm:text-2xl font-black">SheCare অফলাইন ল্যাব রিকুইজিশন ভাউচার</h1>
+                <p class="text-xs text-slate-300 mt-1">পার্টনার মেডিকেল সেন্টারের কাউন্টারে এই স্লিপটি দেখান</p>
+
+                <div class="mt-4 bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-2xl max-w-xs mx-auto">
+                    <span class="text-[11px] text-cyan-200 uppercase font-semibold block">ভাউচার রেফারেন্স কোড</span>
+                    <span class="text-2xl font-mono font-black text-cyan-300 tracking-wider">{{ booking.booking_reference }}</span>
+                </div>
+            </div>
+
+            <div class="p-6 sm:p-8 space-y-6">
+                
+                <!-- Medical Center Details -->
+                <div class="p-4 rounded-2xl bg-medical-50 border border-medical-200 text-xs sm:text-sm space-y-1">
+                    <div class="font-bold text-navy-900 flex items-center gap-2">
+                        <i class="fa-solid fa-hospital text-medical-600 text-base"></i>
+                        <span>{{ booking.medical_center.name }} ({{ booking.medical_center.branch_name }})</span>
+                    </div>
+                    <p class="text-slate-600 pl-6">{{ booking.medical_center.address }}</p>
+                    <p class="text-slate-500 pl-6 pt-1">
+                        <i class="fa-solid fa-phone text-medical-600 mr-1"></i> হেল্পলাইন: {{ booking.medical_center.phone }} / {{ booking.medical_center.hotline }}
+                    </p>
+                </div>
+
+                <!-- Schedule & Test Panel -->
+                <div class="grid grid-cols-2 gap-4 text-xs">
+                    <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+                        <span class="text-slate-400 block text-[11px]">স্যাম্পল তারিখ</span>
+                        <strong class="text-slate-900 text-sm block">{{ booking.booking_date|date:"d M, Y" }}</strong>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+                        <span class="text-slate-400 block text-[11px]">নির্ধারিত সময়</span>
+                        <strong class="text-slate-900 text-sm block">{{ booking.time_slot }}</strong>
+                    </div>
+                </div>
+
+                <!-- Patient & Bill Details -->
+                <div class="space-y-2 pt-2 border-t border-slate-100 text-xs">
+                    <div class="flex justify-between py-1">
+                        <span class="text-slate-500">রোগীর নাম:</span>
+                        <strong class="text-slate-800">{{ booking.patient_name }} ({{ booking.patient_age }} বছর)</strong>
+                    </div>
+                    <div class="flex justify-between py-1">
+                        <span class="text-slate-500">মোবাইল নম্বর:</span>
+                        <strong class="text-slate-800 font-mono">{{ booking.patient_phone }}</strong>
+                    </div>
+                    <div class="flex justify-between py-1">
+                        <span class="text-slate-500">টেস্ট প্যাকেজ:</span>
+                        <span class="font-semibold text-slate-800">{{ booking.test_package_name }}</span>
+                    </div>
+                    <div class="flex justify-between py-1">
+                        <span class="text-slate-500">মূল পরীক্ষা ফি:</span>
+                        <span class="line-through text-slate-400 font-mono">৳{{ booking.total_price|floatformat:0 }}</span>
+                    </div>
+                    <div class="flex justify-between py-1 text-emerald-600 font-bold">
+                        <span>SheCare ডিসকাউন্ট:</span>
+                        <span class="font-mono">- ৳{{ booking.discount_amount|floatformat:0 }} ({{ booking.voucher_code }})</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-t border-slate-200 text-slate-900 font-black text-sm">
+                        <span>সেন্টারে পরিশোধযোগ্য পরিমাণ:</span>
+                        <span class="font-mono text-emerald-600 text-base">৳{{ booking.final_price|floatformat:0 }}</span>
+                    </div>
+                </div>
+
+                <!-- Guidelines -->
+                <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-[11px] text-amber-900 space-y-1">
+                    <strong class="block font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-600"></i> রক্ত স্যাম্পলের গুরুত্বপূর্ণ নিয়ম:
+                    </strong>
+                    <p>• সকালের স্যাম্পল দেয়ার পূর্বে রাতে ১০-১২ ঘণ্টা শুধুমাত্র পানি ছাড়া কোনো চা, দুধ বা ভারী খাবার খাওয়া যাবে না।</p>
+                    <p>• ইউএসজি করার জন্য টেস্টের ১ ঘণ্টা আগে ১ লিটার পানি পান করে মূত্রাশয় পূর্ণ রাখুন।</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
