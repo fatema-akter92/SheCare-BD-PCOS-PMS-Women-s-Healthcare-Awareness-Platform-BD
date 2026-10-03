@@ -1,0 +1,179 @@
+{% extends 'shecare/base.html' %}
+{% load static %}
+
+{% block title %}
+স্মার্ট হরমোন ও সাইকেল ট্র্যাকার - SheCare BD
+{% endblock %}
+
+{% block content %}
+<div class="py-12 bg-slate-50 min-h-screen">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header Banner -->
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <span class="text-xs font-bold uppercase tracking-widest text-rose-600 bg-rose-100 px-3 py-1 rounded-full">
+                ইউনিক ফিচার • সাইকেল ও হরমোন সিঙ্ক
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-navy-900 mt-3 tracking-tight">
+                দেশি হরমোন ও মাসিক চক্র ট্র্যাকার (Phase Sync)
+            </h1>
+            <p class="text-slate-600 text-sm sm:text-base mt-2">
+                নারীদেহের ৪টি প্রধান হরমোন পর্যায় রয়েছে। আপনার শেষ মাসিকের তারিখ দিয়ে জানুন আজ আপনার শরীরে কোন হরমোন সক্রিয় এবং আজকের জন্য কোন দেশি খাবার ও ব্যায়াম সবচেয়ে উপযুক্ত।
+            </p>
+        </div>
+
+        <!-- Input Form Card -->
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm mb-10">
+            <form method="GET" action="{% url 'cycle_tracker' %}" class="grid grid-cols-1 sm:grid-cols-3 gap-5 items-end">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        ১. শেষ মাসিক শুরুর প্রথম দিন *
+                    </label>
+                    <input type="date" name="last_period" required value="{{ last_period }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500 focus:outline-none text-sm font-semibold">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        ২. সাধারণ চক্রের গড় ব্যাপ্তি (দিন)
+                    </label>
+                    <select name="cycle_length" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500 focus:outline-none text-sm font-medium">
+                        <option value="28" {% if cycle_length == 28 %}selected{% endif %}>২৮ দিন (আদর্শ চক্র)</option>
+                        <option value="30" {% if cycle_length == 30 %}selected{% endif %}>৩০ দিন</option>
+                        <option value="32" {% if cycle_length == 32 %}selected{% endif %}>৩২ দিন</option>
+                        <option value="35" {% if cycle_length == 35 %}selected{% endif %}>৩৫ দিন (দেরিতে মাসিক)</option>
+                        <option value="40" {% if cycle_length == 40 %}selected{% endif %}>৪০ দিন (PCOS ধীর চক্র)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <button type="submit" class="w-full py-3.5 px-6 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 shadow-md shadow-rose-500/20 transition">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> আজকের ফেজ গণনা করুন
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Calculated Live Phase Dashboard -->
+        {% if calculated %}
+        <div class="space-y-8 animate-fade-in">
+            
+            <!-- Phase Overview Card -->
+            <div class="bg-gradient-to-br from-navy-900 via-slate-900 to-navy-950 text-white rounded-3xl p-8 shadow-xl relative overflow-hidden border border-slate-800">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                    
+                    <div class="md:col-span-8 space-y-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-cyan-300 text-xs font-bold border border-white/10">
+                            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                            আজকের চক্র দিন: <strong>{{ current_cycle_day }}তম দিন</strong>
+                        </div>
+                        <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white">
+                            {{ phase_name_bn }}
+                        </h2>
+                        <p class="text-slate-300 text-sm leading-relaxed max-w-xl">
+                            {{ hormone_status_bn }}
+                        </p>
+                        
+                        <div class="pt-2 flex flex-wrap items-center gap-4 text-xs text-slate-300">
+                            <div class="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10">
+                                <i class="fa-solid fa-calendar-day text-rose-400"></i>
+                                <span>পরবর্তী সম্ভাব্য মাসিক: <strong>{{ next_period|date:"d M, Y" }}</strong></span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10">
+                                <i class="fa-solid fa-hourglass-half text-amber-400"></i>
+                                <span>বাকি আছে: <strong>{{ days_until_next }} দিন</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Hormone Status Wheel -->
+                    <div class="md:col-span-4 text-center">
+                        <div class="w-36 h-36 rounded-full border-8 border-rose-500/80 flex flex-col items-center justify-center mx-auto bg-slate-800/80 shadow-2xl">
+                            <span class="text-xs uppercase tracking-widest text-slate-400 font-bold">চক্র দিন</span>
+                            <span class="text-4xl font-black text-rose-400">{{ current_cycle_day }}</span>
+                            <span class="text-[11px] text-slate-300">/ {{ cycle_length }} দিন</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Today's Actionable Directives: Diet, Workout & Seed Cycling -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Card 1: Desi Diet -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm space-y-3">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl mb-2">
+                        <i class="fa-solid fa-bowl-food"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900">আজকের জন্য দেশি খাদ্যতালিকা</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        {{ diet_advice_bn }}
+                    </p>
+                    <div class="text-[11px] text-emerald-800 font-medium bg-emerald-50 p-2.5 rounded-xl border border-emerald-100">
+                        <i class="fa-solid fa-lightbulb text-emerald-600 mr-1"></i> হরমোনের উঠানামা নিয়ন্ত্রণ করতে রক্তে গ্লুকোজ স্থিতিশীল রাখা জরুরি।
+                    </div>
+                </div>
+
+                <!-- Card 2: Workout -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm space-y-3">
+                    <div class="w-12 h-12 rounded-2xl bg-medical-100 text-medical-700 flex items-center justify-center text-xl mb-2">
+                        <i class="fa-solid fa-person-walking"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900">আজকের শরীরচর্চা ও বিশ্রাম</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        {{ exercise_advice_bn }}
+                    </p>
+                    <div class="text-[11px] text-medical-800 font-medium bg-medical-50 p-2.5 rounded-xl border border-medical-100">
+                        <i class="fa-solid fa-shield-heart text-medical-600 mr-1"></i> অতিরিক্ত কর্টিসোল হরমোন ডিম্বাশয়ের প্রদাহ বৃদ্ধি করে।
+                    </div>
+                </div>
+
+                <!-- Card 3: Seed Cycling -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm space-y-3">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl mb-2">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900">সিড সাইক্লিং (বীজ গ্রহণ)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed font-semibold text-amber-900">
+                        {{ seed_cycling }}
+                    </p>
+                    <p class="text-[11px] text-slate-500">
+                        বীজগুলো গুঁড়া করে পানিতে, সালাদে বা সকালে লাল চালের ভাতের সাথে মিশিয়ে খেতে পারেন।
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+        {% else %}
+        <!-- Informational 4-Phase Explainer when no date is submitted -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 space-y-2">
+                <span class="w-8 h-8 rounded-full bg-rose-100 text-rose-700 font-bold text-xs flex items-center justify-center">১</span>
+                <h4 class="font-bold text-slate-900 text-sm">মাসিক পর্ব (Menstrual)</h4>
+                <p class="text-xs text-slate-500 leading-relaxed">১ম - ৫ম দিন: হরমোন সর্বনিম্ন থাকে। গরম স্যুপ, লাল চাল, বিশ্রাম ও আদা চা প্রয়োজন।</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 space-y-2">
+                <span class="w-8 h-8 rounded-full bg-sky-100 text-sky-700 font-bold text-xs flex items-center justify-center">২</span>
+                <h4 class="font-bold text-slate-900 text-sm">ফলিকুলার পর্ব (Follicular)</h4>
+                <p class="text-xs text-slate-500 leading-relaxed">৬ষ্ঠ - ১৩তম দিন: ইস্ট্রোজেন বৃদ্ধি পায়, শক্তি ও উদ্যম শীর্ষে। তিসি ও কুমড়ার বীজ খাওয়ার উপযুক্ত সময়।</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 space-y-2">
+                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs flex items-center justify-center">৩</span>
+                <h4 class="font-bold text-slate-900 text-sm">ওভুলেশন পর্ব (Ovulation)</h4>
+                <p class="text-xs text-slate-500 leading-relaxed">১৪তম - ১৬তম দিন: ডিম্বাণু নির্গত হয়। প্রচুর ফাইবার ও সবুজ শাকসবজি গ্রহণ করুন।</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 space-y-2">
+                <span class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 font-bold text-xs flex items-center justify-center">৪</span>
+                <h4 class="font-bold text-slate-900 text-sm">লুটিয়াল পর্ব (PMS Window)</h4>
+                <p class="text-xs text-slate-500 leading-relaxed">১৭তম - ২৮তম দিন: প্রোজেস্টেরন কমে যাওয়ায় মেজাজ খিটখিটে হয়। তিল, সূর্যমুখীর বীজ ও ম্যাগনেসিয়াম প্রয়োজন।</p>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
