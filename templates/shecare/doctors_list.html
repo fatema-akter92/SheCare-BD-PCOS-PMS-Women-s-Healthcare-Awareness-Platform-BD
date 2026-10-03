@@ -1,0 +1,162 @@
+{% extends 'shecare/base.html' %}
+{% load static %}
+
+{% block title %}
+{% if lang == 'bn' %}গাইনি ও হরমোন বিশেষজ্ঞ ডাক্তারগণ - SheCare BD{% else %}Find Specialist Doctors - SheCare BD{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="py-12 bg-slate-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="mb-10 text-center max-w-3xl mx-auto">
+            <span class="text-xs font-bold uppercase tracking-widest text-medical-600 bg-medical-100 px-3 py-1 rounded-full">
+                {% if lang == 'bn' %}ভেরিফাইড মেডিকেল প্যানেল{% else %}Verified Medical Specialists{% endif %}
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-navy-900 mt-3 tracking-tight">
+                {% if lang == 'bn' %}PCOS ও হরমোন বিশেষজ্ঞ ডাক্তার ও অফলাইন চেম্বার{% else %}PCOS & Hormonal Health Specialists in Bangladesh{% endif %}
+            </h1>
+            <p class="text-slate-600 text-sm sm:text-base mt-2">
+                {% if lang == 'bn' %}
+                ঢাকা, চট্টগ্রাম ও সিলেটের সেরা হাসপাতালের শীর্ষ গাইনি, হরমোন ও পুষ্টি বিশেষজ্ঞদের সাথে অফলাইন চেম্বার বা ভিডিও কনসালটেশন নিন।
+                {% else %}
+                Consult verified specialists across Popular, Square, Ibn Sina, and Evercare hospitals for accurate evaluation.
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm mb-10">
+            <form method="GET" action="{% url 'doctors_list' %}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
+                
+                <!-- Specialty Filter -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
+                        {% if lang == 'bn' %}বিশেষজ্ঞ বিভাগ{% else %}Specialty{% endif %}
+                    </label>
+                    <select name="specialty" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-medium focus:ring-2 focus:ring-medical-500 focus:outline-none">
+                        <option value="">{% if lang == 'bn' %}সকল বিভাগ{% else %}All Specialties{% endif %}</option>
+                        {% for sp in specialties %}
+                        <option value="{{ sp.id }}" {% if selected_specialty == sp.id|stringformat:"s" %}selected{% endif %}>
+                            {% if lang == 'bn' and sp.name_bn %}{{ sp.name_bn }}{% else %}{{ sp.name }}{% endif %}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- City Filter -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
+                        {% if lang == 'bn' %}শহর / জেলা{% else %}City / Division{% endif %}
+                    </label>
+                    <select name="city" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-medium focus:ring-2 focus:ring-medical-500 focus:outline-none">
+                        <option value="">{% if lang == 'bn' %}সকল শহর{% else %}All Cities{% endif %}</option>
+                        {% for city_code, city_name in cities %}
+                        <option value="{{ city_code }}" {% if selected_city == city_code %}selected{% endif %}>
+                            {{ city_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Telemedicine Checkbox -->
+                <div class="pt-5 sm:pt-6">
+                    <label class="flex items-center gap-2 cursor-pointer text-xs sm:text-sm font-semibold text-slate-700">
+                        <input type="checkbox" name="telemedicine" value="1" {% if telemedicine_only == '1' %}checked{% endif %} class="rounded text-medical-600 focus:ring-0">
+                        <span>{% if lang == 'bn' %}অনলাইন ভিডিও কল সুবিধাপ্রাপ্ত{% else %}Telemedicine Available{% endif %}</span>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-2 sm:pt-6">
+                    <button type="submit" class="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-white bg-medical-600 hover:bg-medical-700 shadow-sm transition">
+                        <i class="fa-solid fa-filter mr-1"></i> {% if lang == 'bn' %}ফিল্টার করুন{% else %}Apply Filter{% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Doctors Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for doctor in doctors %}
+            <div class="bg-white rounded-3xl border border-slate-200/90 hover:border-medical-400 shadow-sm hover:shadow-xl transition flex flex-col justify-between overflow-hidden group">
+                <div>
+                    <!-- Photo Header -->
+                    <div class="relative h-64 bg-slate-100 overflow-hidden">
+                        <img src="{{ doctor.photo_url }}" alt="{{ doctor.name }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                        
+                        <div class="absolute top-3 right-3 flex items-center gap-1.5">
+                            <span class="bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-bold text-amber-600 shadow-sm flex items-center gap-1">
+                                <i class="fa-solid fa-star text-amber-400"></i> {{ doctor.rating }} ({{ doctor.review_count }})
+                            </span>
+                        </div>
+
+                        <div class="absolute bottom-3 left-3 bg-navy-900/90 text-white text-xs font-bold px-3 py-1 rounded-xl backdrop-blur-sm">
+                            {% if lang == 'bn' and doctor.specialty.name_bn %}{{ doctor.specialty.name_bn }}{% else %}{{ doctor.specialty.name }}{% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Profile Info -->
+                    <div class="p-6 space-y-3">
+                        <h3 class="text-xl font-bold text-slate-900 leading-snug group-hover:text-medical-700 transition">
+                            {% if lang == 'bn' and doctor.name_bn %}{{ doctor.name_bn }}{% else %}{{ doctor.name }}{% endif %}
+                        </h3>
+
+                        <p class="text-xs text-medical-800 font-semibold">
+                            {{ doctor.degrees }}
+                        </p>
+
+                        <p class="text-xs text-slate-500 flex items-start gap-1.5">
+                            <i class="fa-solid fa-building-columns text-slate-400 mt-0.5"></i>
+                            <span>{{ doctor.hospital_affiliation }}</span>
+                        </p>
+
+                        <!-- Offline Chamber Info -->
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-xs text-slate-600 space-y-1">
+                            <div class="font-bold text-slate-800 flex items-center gap-1.5">
+                                <i class="fa-solid fa-location-dot text-medical-600"></i>
+                                <span>{{ doctor.primary_center.name }}</span>
+                            </div>
+                            <div class="text-[11px] text-slate-500 pl-4">
+                                {{ doctor.chamber_address }}
+                            </div>
+                            <div class="text-[11px] text-slate-700 font-medium pl-4 pt-1 flex items-center gap-1">
+                                <i class="fa-solid fa-clock text-slate-400"></i> {{ doctor.visiting_hours }}
+                            </div>
+                        </div>
+
+                        <!-- Fees -->
+                        <div class="pt-2 flex items-center justify-between text-xs border-t border-slate-100">
+                            <div>
+                                <span class="text-slate-400 block text-[11px]">অফলাইন চেম্বার ফি</span>
+                                <strong class="text-sm font-black text-navy-900">৳{{ doctor.consultation_fee|floatformat:0 }}</strong>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-slate-400 block text-[11px]">অনলাইন ভিডিও কল</span>
+                                <strong class="text-sm font-black text-medical-700">৳{{ doctor.online_fee|floatformat:0 }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="p-6 pt-0">
+                    <a href="{% url 'book_appointment' doctor.id %}" class="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-medical-600 to-medical-700 hover:from-medical-700 hover:to-medical-800 shadow-md shadow-medical-600/20 transition">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        {% if lang == 'bn' %}অ্যাপয়েন্টমেন্ট নিন (চেম্বার / অনলাইন){% else %}Book Appointment{% endif %}
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-16 bg-white rounded-3xl border border-slate-200">
+                <i class="fa-solid fa-user-slash text-4xl text-slate-300 mb-3"></i>
+                <h4 class="text-lg font-bold text-slate-700">কোনো ডাক্তার পাওয়া যায়নি</h4>
+                <p class="text-xs text-slate-500 mt-1">অনুগ্রহ করে ফিল্টার পরিবর্তন করে পুনরায় চেষ্টা করুন।</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}
