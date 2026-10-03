@@ -1,0 +1,257 @@
+{% extends 'shecare/base.html' %}
+{% load static %}
+
+{% block title %}
+{% if lang == 'bn' %}PCOS ও PMS ডিজিটাল স্ক্রিনিং পরীক্ষা - SheCare BD{% else %}PCOS & PMS Clinical Screening Assessment - SheCare BD{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="py-12 bg-slate-50 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header Banner -->
+        <div class="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-sm mb-8 text-center relative overflow-hidden">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-medical-50 text-medical-700 text-xs font-bold border border-medical-200 mb-3">
+                <i class="fa-solid fa-shield-halved"></i>
+                {% if lang == 'bn' %}রটারডাম প্রোটোকল ও ACOG ক্লিনিক্যাল গাইডলাইন{% else %}Rotterdam Consensus & ACOG Guidelines{% endif %}
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-navy-900 tracking-tight">
+                {% if lang == 'bn' %}PCOS ও PMS ডিজিটাল স্ক্রিনিং ও ঝুঁকি মূল্যায়ন{% else %}PCOS & PMS Clinical Risk Assessment{% endif %}
+            </h1>
+            <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mt-2">
+                {% if lang == 'bn' %}
+                আপনার মাসিকের ছন্দ, হরমোনের শারীরিক লক্ষণ এবং মানসিক পরিবর্তনের তথ্য দিয়ে ৩ মিনিটে জেনে নিন আপনার ঝুঁকির মাত্রা এবং ডাক্তারের প্রেসক্রিপশনের মতো প্রয়োজনীয় টেস্টের তালিকা।
+                {% else %}
+                Assess clinical markers of anovulation, androgen excess, insulin resistance, and premenstrual dysphoria to generate an official healthcare requisition report.
+                {% endif %}
+            </p>
+            <div class="mt-4 flex items-center justify-center gap-6 text-xs text-slate-500 font-medium">
+                <span><i class="fa-solid fa-lock text-emerald-500 mr-1"></i> ১০০% নিরাপদ ও বেনামী</span>
+                <span><i class="fa-solid fa-clock text-medical-600 mr-1"></i> মাত্র ৩ মিনিট সময়</span>
+                <span><i class="fa-solid fa-file-medical text-cyan-600 mr-1"></i> প্রিন্টযোগ্য মেডিকেল রিপোর্ট</span>
+            </div>
+        </div>
+
+        <!-- Interactive Screening Form -->
+        <form method="POST" action="{% url 'screening' %}" class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-sm space-y-10">
+            {% csrf_token %}
+
+            <!-- Section 1: Patient Details -->
+            <div class="space-y-4 pb-8 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-full bg-medical-600 text-white font-bold text-sm flex items-center justify-center">১</span>
+                    <h3 class="text-lg font-bold text-slate-900">
+                        {% if lang == 'bn' %}রোগীর প্রাথমিক তথ্য{% else %}Basic Information{% endif %}
+                    </h3>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-2">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            {% if lang == 'bn' %}রোগীর নাম (ঐচ্ছিক){% else %}Patient Name (Optional){% endif %}
+                        </label>
+                        <input type="text" name="patient_name" placeholder="Anonymous SheCare Patient" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-medical-500 focus:outline-none text-sm">
+                        <span class="text-[11px] text-slate-400">নাম প্রকাশ করতে না চাইলে খালি রাখুন</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            {% if lang == 'bn' %}বয়স (বছর) *{% else %}Age (Years) *{% endif %}
+                        </label>
+                        <input type="number" name="age" required min="12" max="55" value="22" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-medical-500 focus:outline-none text-sm font-semibold">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            {% if lang == 'bn' %}মোবাইল নম্বর (এসএমএস এর জন্য){% else %}Phone (For SMS Slip){% endif %}
+                        </label>
+                        <input type="tel" name="phone" placeholder="017XXXXXXXX" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-medical-500 focus:outline-none text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Menstrual Cycle Characteristics -->
+            <div class="space-y-4 pb-8 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-full bg-medical-600 text-white font-bold text-sm flex items-center justify-center">২</span>
+                    <h3 class="text-lg font-bold text-slate-900">
+                        {% if lang == 'bn' %}মাসিক চক্রের স্বাভাবিকতা ও অনিয়ম{% else %}Menstrual Regularity & Cycle Characteristics{% endif %}
+                    </h3>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            {% if lang == 'bn' %}গড় মাসিক চক্রের ব্যাপ্তিকাল (দিন) *{% else %}Average Cycle Length (Days) *{% endif %}
+                        </label>
+                        <select name="cycle_length" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-medical-500 focus:outline-none text-sm font-medium">
+                            <option value="28">২১ থেকে ৩৫ দিন (স্বাভাবিক চক্র)</option>
+                            <option value="38">৩৬ থেকে ৫০ দিন (দেরিতে মাসিক হওয়া)</option>
+                            <option value="60">৫০ দিনের বেশি বা ২-৩ মাস পর পর</option>
+                            <option value="90">ঔষধ ছাড়া মাসিক হয় না (অ্যামেনোরিয়া)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            {% if lang == 'bn' %}চক্রের নিয়মিততা কেমন? *{% else %}Cycle Regularity *{% endif %}
+                        </label>
+                        <select name="cycle_regularity" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-medical-500 focus:outline-none text-sm font-medium">
+                            <option value="regular">নিয়মিত (প্রতি মাসে নির্দিষ্ট সময়ে হয়)</option>
+                            <option value="irregular_mild">সামান্য অনিয়মিত (কখনো ৫-১০ দিন আগে/পরে হয়)</option>
+                            <option value="irregular_severe" selected>মারাত্মক অনিয়মিত (কখনো মাসের পর মাস বন্ধ থাকে)</option>
+                            <option value="absent">সম্পূর্ণ বন্ধ (গত ৪-৬ মাস ধরে মাসিক হচ্ছে না)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Physical Hyperandrogenism & Metabolic Signs (PCOS Core) -->
+            <div class="space-y-4 pb-8 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-full bg-medical-600 text-white font-bold text-sm flex items-center justify-center">৩</span>
+                    <h3 class="text-lg font-bold text-slate-900">
+                        {% if lang == 'bn' %}শারীরিক ও মেটাবলিক লক্ষণ (পিসিওএস নির্দেশক){% else %}Physical & Metabolic Signs (PCOS Criteria){% endif %}
+                    </h3>
+                </div>
+
+                <div class="space-y-4 pt-2">
+                    <!-- Hirsutism Question -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            {% if lang == 'bn' %}মুখে বা চিবুকে অবাঞ্ছিত শক্ত লোম (Hirsutism) এর তীব্রতা:{% else %}Facial Hair (Hirsutism) Severity:{% endif %}
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                            <label class="p-3.5 rounded-xl border border-slate-200 hover:border-medical-400 cursor-pointer flex items-center gap-2.5 has-[:checked]:border-medical-600 has-[:checked]:bg-medical-50 transition">
+                                <input type="radio" name="hirsutism_score" value="0" class="text-medical-600 focus:ring-0">
+                                <span class="text-xs font-medium text-slate-700">কোনো লোম নেই (স্বাভাবিক)</span>
+                            </label>
+                            <label class="p-3.5 rounded-xl border border-slate-200 hover:border-medical-400 cursor-pointer flex items-center gap-2.5 has-[:checked]:border-medical-600 has-[:checked]:bg-medical-50 transition">
+                                <input type="radio" name="hirsutism_score" value="1" class="text-medical-600 focus:ring-0">
+                                <span class="text-xs font-medium text-slate-700">হালকা কয়েকটি শক্ত লোম</span>
+                            </label>
+                            <label class="p-3.5 rounded-xl border border-slate-200 hover:border-medical-400 cursor-pointer flex items-center gap-2.5 has-[:checked]:border-medical-600 has-[:checked]:bg-medical-50 transition">
+                                <input type="radio" name="hirsutism_score" value="2" checked class="text-medical-600 focus:ring-0">
+                                <span class="text-xs font-medium text-slate-700">চিবুক ও থুতনিতে ঘন লোম</span>
+                            </label>
+                            <label class="p-3.5 rounded-xl border border-slate-200 hover:border-medical-400 cursor-pointer flex items-center gap-2.5 has-[:checked]:border-medical-600 has-[:checked]:bg-medical-50 transition">
+                                <input type="radio" name="hirsutism_score" value="3" class="text-medical-600 focus:ring-0">
+                                <span class="text-xs font-medium text-slate-700">তীব্র (নিয়মিত থ্রেডিং বা শেভিং প্রয়োজন)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Checkboxes for other symptoms -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <label class="p-4 rounded-xl border border-slate-200 hover:border-medical-400 cursor-pointer flex items-start gap-3 has-[:checked]:border-medical-600 has-[:checked]:bg-medical-50 transition">
+                            <input type="checkbox" name="cystic_acne" checked class="mt-0.5 rounded text-medical-600 focus:ring-0">
+                            <div>
+                                <span class="text-xs font-bold text-slate-900 block">কানের নিচে ও চিবুকে সিস্টিক ব্রণ</span>
+                                <span class="text-[11px] text-slate-500">জেদি পুঁজযুক্ত ব্রণ যা সাধারণ ক্রিমে ভালো হয় না</span>
+                            </div>
+                        </label>
+
+                        <label class="p-4 rounded-xl border border-slate-200 hover:border-medical-400 cursor-pointer flex items-start gap-3 has-[:checked]:border-medical-600 has-[:checked]:bg-medical-50 transition">
+                            <input type="checkbox" name="hair_thinning" checked class="mt-0.5 rounded text-medical-600 focus:ring-0">
+                            <div>
+                                <span class="text-xs font-bold text-slate-900 block">মাথার সিঁথি ফাঁকা হয়ে চুল পড়া</span>
+                                <span class="text-[11px] text-slate-500">পুরুষালী প্যাটার্নে মাথার সামনের অংশের চুল পাতলা হয়ে যাওয়া</span>
+                            </div>
+                        </label>
+
+                        <label class="p-4 rounded-xl border border-slate-200 hover:border-medical-400 cursor-pointer flex items-start gap-3 has-[:checked]:border-medical-600 has-[:checked]:bg-medical-50 transition">
+                            <input type="checkbox" name="weight_difficulty" checked class="mt-0.5 rounded text-medical-600 focus:ring-0">
+                            <div>
+                                <span class="text-xs font-bold text-slate-900 block">তলপেটের ওজন কমানোয় তীব্র বেগ পেতে হয়</span>
+                                <span class="text-[11px] text-slate-500">কম খেলেও ওজন দ্রুত বাড়ে এবং পেট চর্বিবহুল হয়</span>
+                            </div>
+                        </label>
+
+                        <label class="p-4 rounded-xl border border-slate-200 hover:border-medical-400 cursor-pointer flex items-start gap-3 has-[:checked]:border-medical-600 has-[:checked]:bg-medical-50 transition">
+                            <input type="checkbox" name="dark_patches_neck" class="mt-0.5 rounded text-medical-600 focus:ring-0">
+                            <div>
+                                <span class="text-xs font-bold text-slate-900 block">ঘাড় ও বগলে কালো ভেলভেটের মতো দাগ</span>
+                                <span class="text-[11px] text-slate-500">Acanthosis Nigricans (শরীরে উচ্চ ইনসুলিনের পরিষ্কার চিহ্ন)</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: PMS & PMDD (Premenstrual Dysphoric Disorder) -->
+            <div class="space-y-4 pb-6">
+                <div class="flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-full bg-rose-500 text-white font-bold text-sm flex items-center justify-center">৪</span>
+                    <h3 class="text-lg font-bold text-slate-900">
+                        {% if lang == 'bn' %}PMS ও মানসিক কষ্ট (মাসিকের ৭-১০ দিন পূর্বের অবস্থা){% else %}PMS & Premenstrual Dysphoria (PMDD){% endif %}
+                    </h3>
+                </div>
+
+                <div class="space-y-4 pt-2">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            {% if lang == 'bn' %}মাসিকের পূর্বে মেজাজের পরিবর্তন ও মানসিক অস্থিরতা কেমন হয়?{% else %}Premenstrual Mood Swings & Emotional Disturbance:{% endif %}
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                            <label class="p-3.5 rounded-xl border border-slate-200 hover:border-rose-400 cursor-pointer flex items-center gap-2.5 has-[:checked]:border-rose-500 has-[:checked]:bg-rose-50 transition">
+                                <input type="radio" name="pms_mood_swings" value="0" class="text-rose-500 focus:ring-0">
+                                <span class="text-xs font-medium text-slate-700">স্বাভাবিক (কোনো অস্বস্তি নেই)</span>
+                            </label>
+                            <label class="p-3.5 rounded-xl border border-slate-200 hover:border-rose-400 cursor-pointer flex items-center gap-2.5 has-[:checked]:border-rose-500 has-[:checked]:bg-rose-50 transition">
+                                <input type="radio" name="pms_mood_swings" value="1" class="text-rose-500 focus:ring-0">
+                                <span class="text-xs font-medium text-slate-700">মৃদু খিটখিটে ভাব</span>
+                            </label>
+                            <label class="p-3.5 rounded-xl border border-slate-200 hover:border-rose-400 cursor-pointer flex items-center gap-2.5 has-[:checked]:border-rose-500 has-[:checked]:bg-rose-50 transition">
+                                <input type="radio" name="pms_mood_swings" value="2" checked class="text-rose-500 focus:ring-0">
+                                <span class="text-xs font-medium text-slate-700">মাঝারি রাগ ও বিষণ্ণতা</span>
+                            </label>
+                            <label class="p-3.5 rounded-xl border border-slate-200 hover:border-rose-400 cursor-pointer flex items-center gap-2.5 has-[:checked]:border-rose-500 has-[:checked]:bg-rose-50 transition">
+                                <input type="radio" name="pms_mood_swings" value="3" class="text-rose-500 focus:ring-0">
+                                <span class="text-xs font-medium text-slate-700">তীব্র কান্না, আতঙ্ক ও সম্পর্ক সংকট (PMDD)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                {% if lang == 'bn' %}মাসিকের তীব্র তলপেটের ব্যথা বা ক্র্যাম্প (Dysmenorrhea):{% else %}Menstrual Cramps Severity:{% endif %}
+                            </label>
+                            <select name="pms_cramps_severity" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-400 focus:outline-none text-sm font-medium">
+                                <option value="0">কোনো ব্যথা নেই বললেই চলে</option>
+                                <option value="1">সহ্য করার মতো মৃদু ব্যথা</option>
+                                <option value="2" selected>মাঝারি ব্যথা (কাজকর্মে ব্যাঘাত ঘটে)</option>
+                                <option value="3">মারাত্মক তীব্র ব্যথা (পেইনকিলার ছাড়া থাকা যায় না)</option>
+                            </select>
+                        </div>
+
+                        <div class="pt-6">
+                            <label class="p-4 rounded-xl border border-slate-200 hover:border-rose-400 cursor-pointer flex items-start gap-3 has-[:checked]:border-rose-500 has-[:checked]:bg-rose-50 transition">
+                                <input type="checkbox" name="pms_bloating_fatigue" checked class="mt-0.5 rounded text-rose-500 focus:ring-0">
+                                <div>
+                                    <span class="text-xs font-bold text-slate-900 block">পেট ফাঁপা ও তীব্র মিষ্টি খাওয়ার তীব্র আকুলতা</span>
+                                    <span class="text-[11px] text-slate-500">শরীরে পানি জমা, স্তনে ব্যথা ও সারাদিন অলস লাগা</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button & Disclaimer -->
+            <div class="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-slate-500 max-w-sm">
+                    <i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i>
+                    ক্লিক করলেই তৈরি হবে আপনার অফিশিয়াল ক্লিনিক্যাল রেজাল্ট শিট।
+                </p>
+                <button type="submit" class="w-full sm:w-auto px-10 py-4 rounded-xl text-base font-bold text-white bg-gradient-to-r from-medical-600 to-medical-700 hover:from-medical-700 hover:to-medical-800 shadow-lg shadow-medical-600/30 transition transform hover:-translate-y-0.5 active:translate-y-0 text-center">
+                    <i class="fa-solid fa-chart-pie mr-2"></i>
+                    {% if lang == 'bn' %}ফলাফল ও ক্লিনিক্যাল রিপোর্ট দেখুন{% else %}Generate Clinical Risk Report{% endif %}
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}
