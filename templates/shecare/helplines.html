@@ -1,0 +1,137 @@
+{% extends 'shecare/base.html' %}
+{% load static %}
+
+{% block title %}
+জরুরি স্বাস্থ্য ও মানসিক সহায়তা হেল্পলাইন (বাংলাদেশ) - SheCare BD
+{% endblock %}
+
+{% block content %}
+<div class="py-12 bg-slate-50 min-h-screen">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header Banner -->
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-xs font-bold uppercase tracking-widest text-rose-600 bg-rose-100 px-3 py-1 rounded-full">
+                ২৪/৭ জরুরি টেলিমেডিসিন ও মানসিক সেবা
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-navy-900 mt-3 tracking-tight">
+                বাংলাদেশ জরুরি স্বাস্থ্য ও মানসিক সহায়তা হেল্পলাইন
+            </h1>
+            <p class="text-slate-600 text-sm sm:text-base mt-2">
+                মাসিকের অতিরিক্ত রক্তক্ষরণ, হঠাৎ তীব্র তলপেটের ব্যথা কিংবা PMDD-এর কারণে তীব্র মানসিক অস্থিরতায় দ্রুত সহায়তার জন্য নিচের সরকারি ও জাতীয় হেল্পলাইনগুলোতে সরাসরি যোগাযোগ করুন।
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Helpline 1: Shastho Batayan 16263 -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-md transition space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="w-14 h-14 rounded-2xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <span class="text-xs font-bold bg-cyan-50 text-cyan-800 px-2.5 py-1 rounded-full border border-cyan-200">
+                        ২৪ ঘণ্টা খোলা • সরকারি স্বাস্থ্যসেবা
+                    </span>
+                </div>
+                
+                <h3 class="text-xl font-bold text-navy-900">
+                    স্বাস্থ্য বাতায়ন (Shastho Batayan)
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    স্বাস্থ্য অধিদপ্তর পরিচালিত সরকারি টেলিমেডিসিন সেবা। যেকোনো সময় অভিজ্ঞ রেজিস্টার্ড এমবিবিএস ডাক্তারের সাথে সরাসরি কথা বলে প্রাথমিক পরামর্শ ও প্রেসক্রিপশন নিতে ডায়াল করুন।
+                </p>
+
+                <div class="pt-2">
+                    <a href="tel:16263" class="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-mono text-lg font-black text-white bg-cyan-600 hover:bg-cyan-700 shadow-md shadow-cyan-600/20 transition">
+                        <i class="fa-solid fa-phone-volume text-base"></i> ১৬২৬৩ (16263) কল করুন
+                    </a>
+                </div>
+            </div>
+
+            <!-- Helpline 2: Women & Children 109 -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-md transition space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+                    <span class="text-xs font-bold bg-rose-50 text-rose-800 px-2.5 py-1 rounded-full border border-rose-200">
+                        সম্পূর্ণ টোল-ফ্রি (বিনামূল্যে)
+                    </span>
+                </div>
+                
+                <h3 class="text-xl font-bold text-navy-900">
+                    নারী ও শিশু হেল্পলাইন (মহিলা বিষয়ক মন্ত্রণালয়)
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    কিশোরী ও নারীদের যেকোনো জরুরি পারিবারিক সংকট, মানসিক আঘাত, নির্যাতন প্রতিরোধ ও জরুরি পরামর্শের জন্য ২৪/৭ বিনামূল্যে উন্মুক্ত সরকারি হেল্পলাইন।
+                </p>
+
+                <div class="pt-2">
+                    <a href="tel:109" class="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-mono text-lg font-black text-white bg-rose-600 hover:bg-rose-700 shadow-md shadow-rose-600/20 transition">
+                        <i class="fa-solid fa-phone-volume text-base"></i> ১০৯ (109) টোল ফ্রি কল
+                    </a>
+                </div>
+            </div>
+
+            <!-- Helpline 3: National Emergency 999 -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-md transition space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-ambulance"></i>
+                    </div>
+                    <span class="text-xs font-bold bg-amber-50 text-amber-800 px-2.5 py-1 rounded-full border border-amber-200">
+                        জরুরি অ্যাম্বুলেন্স সার্ভিস
+                    </span>
+                </div>
+                
+                <h3 class="text-xl font-bold text-navy-900">
+                    জাতীয় জরুরি সেবা (৯৯৯)
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    তীব্র পেটে ব্যথা, ডিম্বাশয়ের সিস্ট ফেটে যাওয়া (Ruptured Cyst) বা আকস্মিক রক্তক্ষরণের মতো চরম জরুরি পরিস্থিতিতে নিকটস্থ সরকারি বা বেসরকারি অ্যাম্বুলেন্স ডাকতে ডায়াল করুন।
+                </p>
+
+                <div class="pt-2">
+                    <a href="tel:999" class="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-mono text-lg font-black text-white bg-amber-600 hover:bg-amber-700 shadow-md shadow-amber-600/20 transition">
+                        <i class="fa-solid fa-phone-volume text-base"></i> ৯৯৯ (999) কল করুন
+                    </a>
+                </div>
+            </div>
+
+            <!-- Helpline 4: Kaan Pete Roi (Emotional Crisis & PMDD) -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-md transition space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="w-14 h-14 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <span class="text-xs font-bold bg-teal-50 text-teal-800 px-2.5 py-1 rounded-full border border-teal-200">
+                        মানসিক স্বাস্থ্য ও হতাশা কাউন্সেলিং
+                    </span>
+                </div>
+                
+                <h3 class="text-xl font-bold text-navy-900">
+                    কান পেতে রই (Kaan Pete Roi)
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    বাংলাদেশের প্রথম মানসিক সংকট ও হতাশা উত্তরণ হেল্পলাইন। পিরিয়ডের আগের তীব্র বিষণ্ণতা (PMDD) ও আত্মহত্যার চিন্তায় পাশে থাকার জন্য নিবেদিত স্বেচ্ছাসেবক টিম।
+                </p>
+
+                <div class="pt-2">
+                    <a href="tel:01779554391" class="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-mono text-base font-bold text-white bg-teal-600 hover:bg-teal-700 shadow-md shadow-teal-600/20 transition">
+                        <i class="fa-solid fa-phone-volume text-base"></i> ০১৭১১-৭৮৬১৬৭ / ০১৭৭৯-৫৫৪৩৯১
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Supportive Emergency Note -->
+        <div class="mt-12 p-6 rounded-2xl bg-medical-50 border border-medical-200 text-center text-xs text-slate-700 space-y-1">
+            <strong class="text-medical-900 block text-sm">আপনি একা নন — SheCare সব সময় আপনার পাশে আছে</strong>
+            <p>আপনার অনুভূতিগুলো অলীক বা ভিত্তিহীন নয়। যেকোনো অস্বাভাবিক লক্ষণ প্রকাশ পেলে সময়মতো কথা বলুন এবং চিকিৎসা নিন।</p>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
