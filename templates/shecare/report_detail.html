@@ -1,0 +1,240 @@
+{% extends 'shecare/base.html' %}
+{% load static %}
+
+{% block title %}
+ক্লিনিক্যাল রিপোর্ট: {{ report.report_code }} - SheCare BD
+{% endblock %}
+
+{% block extra_head %}
+<style>
+@media print {
+    body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    .print-card {
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="py-12 bg-slate-100 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Action Bar (No-Print) -->
+        <div class="mb-6 flex flex-wrap items-center justify-between gap-4 no-print">
+            <a href="{% url 'screening' %}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-medical-700">
+                <i class="fa-solid fa-arrow-left"></i> পুনরায় স্ক্রিনিং করুন
+            </a>
+
+            <div class="flex items-center gap-3">
+                <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 shadow-sm transition">
+                    <i class="fa-solid fa-print text-medical-600"></i> রিপোর্ট প্রিন্ট / PDF সংরক্ষণ
+                </button>
+                <a href="{% url 'doctors_list' %}?report={{ report.report_code }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-medical-600 hover:bg-medical-700 text-white shadow-sm transition">
+                    <i class="fa-solid fa-user-doctor"></i> ডাক্তার চেম্বার বুক করুন
+                </a>
+            </div>
+        </div>
+
+        <!-- The Printable Clinical Report Card -->
+        <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xl overflow-hidden print-card">
+            
+            <!-- Healthcare Header -->
+            <div class="bg-gradient-to-r from-medical-900 via-medical-800 to-medical-900 text-white p-8 border-b-4 border-medical-500">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-2xl text-cyan-300 border border-white/20">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-black tracking-tight">SheCare BD</div>
+                            <div class="text-xs text-medical-200 font-semibold tracking-wide uppercase">
+                                ডিজিটাল ক্লিনিক্যাল স্ক্রিনিং ও টেস্ট রিকুইজিশন স্লিপ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-left sm:text-right">
+                        <div class="text-xs text-medical-300">রিপোর্ট কোড:</div>
+                        <div class="text-lg font-mono font-bold text-cyan-300">{{ report.report_code }}</div>
+                        <div class="text-[11px] text-slate-300">{{ report.created_at|date:"d M, Y - h:i A" }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patient Information Bar -->
+            <div class="bg-slate-50 px-8 py-4 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4 text-xs sm:text-sm">
+                <div>
+                    <span class="text-slate-500 font-medium">রোগীর নাম:</span>
+                    <strong class="text-slate-900 ml-1 font-bold">{{ report.patient_name }}</strong>
+                </div>
+                <div>
+                    <span class="text-slate-500 font-medium">বয়স:</span>
+                    <strong class="text-slate-900 ml-1 font-bold">{{ report.age }} বছর</strong>
+                </div>
+                <div>
+                    <span class="text-slate-500 font-medium">মাসিক চক্র:</span>
+                    <strong class="text-slate-900 ml-1 font-bold">~{{ report.cycle_length }} দিন</strong>
+                </div>
+                <div>
+                    <span class="text-slate-500 font-medium">নিয়মিততা:</span>
+                    <strong class="text-slate-900 ml-1 font-bold">
+                        {% if report.cycle_regularity == 'regular' %}নিয়মিত{% elif report.cycle_regularity == 'irregular_mild' %}সামান্য অনিয়মিত{% elif report.cycle_regularity == 'irregular_severe' %}মারাত্মক অনিয়মিত{% else %}অনুপস্থিত{% endif %}
+                    </strong>
+                </div>
+            </div>
+
+            <!-- Clinical Risk Gauges -->
+            <div class="p-8 space-y-8">
+                
+                <!-- Dual Gauges Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- PCOS Risk Box -->
+                    <div class="p-6 rounded-2xl border {% if report.pcos_risk_level == 'High' %}border-rose-200 bg-rose-50/40{% elif report.pcos_risk_level == 'Moderate' %}border-amber-200 bg-amber-50/40{% else %}border-emerald-200 bg-emerald-50/40{% endif %}">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-600">PCOS ঝুঁকি মাত্রা (Rotterdam Criteria)</span>
+                            <span class="text-2xl font-black {% if report.pcos_risk_level == 'High' %}text-rose-600{% elif report.pcos_risk_level == 'Moderate' %}text-amber-600{% else %}text-emerald-600{% endif %}">
+                                {{ report.pcos_score }}%
+                            </span>
+                        </div>
+                        
+                        <!-- Progress bar -->
+                        <div class="w-full bg-slate-200 rounded-full h-3 mb-4 overflow-hidden">
+                            <div class="h-3 rounded-full {% if report.pcos_risk_level == 'High' %}bg-rose-500{% elif report.pcos_risk_level == 'Moderate' %}bg-amber-500{% else %}bg-emerald-500{% endif %}" style="width: {{ report.pcos_score }}%"></div>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <span class="inline-flex px-3 py-1 rounded-full text-xs font-bold text-white {% if report.pcos_risk_level == 'High' %}bg-rose-600{% elif report.pcos_risk_level == 'Moderate' %}bg-amber-600{% else %}bg-emerald-600{% endif %}">
+                                {{ report.get_pcos_risk_level_display }}
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-600 mt-3 leading-relaxed">
+                            {{ report.clinical_summary }}
+                        </p>
+                    </div>
+
+                    <!-- PMS / PMDD Severity Box -->
+                    <div class="p-6 rounded-2xl border {% if report.pms_severity_level == 'Severe_PMDD' %}border-rose-200 bg-rose-50/40{% elif report.pms_severity_level == 'Moderate' %}border-amber-200 bg-amber-50/40{% else %}border-sky-200 bg-sky-50/40{% endif %}">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-600">PMS / PMDD তীব্রতা (ACOG Model)</span>
+                            <span class="text-2xl font-black {% if report.pms_severity_level == 'Severe_PMDD' %}text-rose-600{% elif report.pms_severity_level == 'Moderate' %}text-amber-600{% else %}text-sky-600{% endif %}">
+                                {{ report.pms_score }}%
+                            </span>
+                        </div>
+
+                        <!-- Progress bar -->
+                        <div class="w-full bg-slate-200 rounded-full h-3 mb-4 overflow-hidden">
+                            <div class="h-3 rounded-full {% if report.pms_severity_level == 'Severe_PMDD' %}bg-rose-500{% elif report.pms_severity_level == 'Moderate' %}bg-amber-500{% else %}bg-sky-500{% endif %}" style="width: {{ report.pms_score }}%"></div>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <span class="inline-flex px-3 py-1 rounded-full text-xs font-bold text-white {% if report.pms_severity_level == 'Severe_PMDD' %}bg-rose-600{% elif report.pms_severity_level == 'Moderate' %}bg-amber-600{% else %}bg-sky-600{% endif %}">
+                                {{ report.get_pms_severity_level_display }}
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-600 mt-3 leading-relaxed">
+                            মাসিকের পূর্ববর্তী মেজাজ পরিবর্তন, ক্র্যাম্পিং ও হরমোন ওঠানামা নির্দেশ করছে। ম্যাগনেসিয়াম সমৃদ্ধ খাবার ও মানসিক কাউন্সেলিং ফলপ্রসূ হতে পারে।
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Section: Recommended Initial Diagnostic Lab Tests Table -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                        <h4 class="text-base font-extrabold text-navy-900 flex items-center gap-2">
+                            <i class="fa-solid fa-flask-vial text-medical-600"></i>
+                            ডাক্তার দেখানোর পূর্বে সুপারিশকৃত প্রাথমিক ল্যাব টেস্টসমূহ (Initial Requisition)
+                        </h4>
+                        <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 no-print">
+                            ২০% SheCare ছাড় প্রযোজ্য
+                        </span>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left text-xs sm:text-sm">
+                            <thead class="bg-slate-50 text-slate-600 uppercase text-[11px] font-bold border-b border-slate-200">
+                                <tr>
+                                    <th class="py-3 px-4">টেস্টের নাম ও কোড</th>
+                                    <th class="py-3 px-4">ক্লিনিক্যাল উদ্দেশ্য</th>
+                                    <th class="py-3 px-4">স্যাম্পল দেয়ার নিয়ম / প্রিপারেশন</th>
+                                    <th class="py-3 px-4 text-right">স্ট্যান্ডার্ড ফি</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                {% for t in tests %}
+                                <tr class="hover:bg-slate-50/50">
+                                    <td class="py-3 px-4 font-bold text-slate-900">
+                                        {{ t.name_bn }}
+                                        <span class="block text-[11px] font-mono text-medical-600">{{ t.code }}</span>
+                                    </td>
+                                    <td class="py-3 px-4 text-slate-600 text-xs">
+                                        {{ t.purpose_bn }}
+                                    </td>
+                                    <td class="py-3 px-4 text-amber-700 text-xs font-medium">
+                                        {{ t.preparation_instructions }}
+                                    </td>
+                                    <td class="py-3 px-4 text-right font-mono font-bold text-slate-800">
+                                        ৳{{ t.discounted_price_bdt|floatformat:0 }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Section: Personalized Desi Lifestyle & Nutrition Directives -->
+                <div class="p-6 rounded-2xl bg-medical-50/60 border border-medical-200 space-y-3">
+                    <h4 class="text-sm font-bold text-medical-900 flex items-center gap-2">
+                        <i class="fa-solid fa-apple-whole text-medical-600"></i>
+                        চিকিৎসকের পরামর্শ অনুযায়ী জীবনধারা ও দেশি পুষ্টি গাইডলাইন (Lifestyle Rx)
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-700 leading-relaxed">
+                        <div class="space-y-1.5">
+                            <strong class="text-medical-800 block">১. কার্বোহাইড্রেট ও দেশি খাবারের রূপান্তর:</strong>
+                            <p>সাদা পালিশ করা ভাতের বদলে ঢেকীছাঁটা লাল চাল। প্রতিদিন সকালে খালি পেটে মেথি ভেজানো পানি। ডালডা বা সয়াবিনে ভাজা শিঙাড়া-পুরি সম্পূর্ণরূপে পরিহার করুন।</p>
+                        </div>
+                        <div class="space-y-1.5">
+                            <strong class="text-medical-800 block">২. সিড সাইক্লিং (Seed Cycling):</strong>
+                            <p>মাসিকের ১ম থেকে ১৪তম দিন ১ চামচ তিসি + ১ চামচ কুমড়ার বীজ। ১৫তম দিন থেকে ২৮তম দিন ১ চামচ তিল + ১ চামচ সূর্যমুখীর বীজ।</p>
+                        </div>
+                        <div class="space-y-1.5">
+                            <strong class="text-medical-800 block">৩. কর্টিসোল ও ব্যায়াম:</strong>
+                            <p>প্রতিদিন ৮,০০০ কদম স্বাভাবিক গতিতে হাঁটা এবং ১৫-২০ মিনিট যোগব্যায়াম (বদ্ধকোণাসন, ভুজঙ্গাসন)। অতিরিক্ত ক্লান্তি হয় এমন ভারী ব্যায়াম পরিহার করুন।</p>
+                        </div>
+                        <div class="space-y-1.5">
+                            <strong class="text-medical-800 block">৪. মানসিক প্রশান্তি ও ভিটামিন ডি:</strong>
+                            <p>প্রতিদিন সকাল ১০টার রোদে ১৫ মিনিট থাকুন। মাসিকের আগের সপ্তাহে কফি ও অতিরিক্ত লবণ কমিয়ে আদা বা তুলসীর চা পান করুন।</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor Referral Notice -->
+                <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="text-xs text-slate-500">
+                        <i class="fa-solid fa-stamp text-medical-700 mr-1"></i>
+                        অফিসিয়াল রেফারাল কোড: <span class="font-mono font-bold text-slate-800">{{ report.report_code }}</span> | SheCare Medical Board
+                    </div>
+                    <div class="flex items-center gap-3 no-print">
+                        <a href="{% url 'diagnostic_tests' %}" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-medical-800 bg-white border border-medical-300 hover:bg-medical-50 shadow-sm transition">
+                            <i class="fa-solid fa-flask-vial mr-1"></i> ল্যাব টেস্ট ভাউচার বুক করুন
+                        </a>
+                        <a href="{% url 'doctors_list' %}?report={{ report.report_code }}" class="px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-medical-600 hover:bg-medical-700 shadow-sm transition">
+                            <i class="fa-solid fa-calendar-check mr-1"></i> ডাক্তার অ্যাপয়েন্টমেন্ট
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
