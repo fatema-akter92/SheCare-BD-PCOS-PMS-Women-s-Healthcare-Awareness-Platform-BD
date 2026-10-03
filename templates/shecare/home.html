@@ -1,0 +1,576 @@
+{% extends 'shecare/base.html' %}
+{% load static %}
+
+{% block title %}
+{% if lang == 'bn' %}SheCare BD - বাংলাদেশে PCOS ও PMS সচেতনতা ও স্বাস্থ্যসেবা প্ল্যাটফর্ম{% else %}SheCare BD - PCOS & PMS Awareness, Screening & Clinical Care in Bangladesh{% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Medical Blue & White Clean Aesthetic -->
+<section class="relative bg-gradient-to-b from-medical-50/70 via-white to-slate-50 overflow-hidden py-14 lg:py-20 border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Left Hero Content -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- Trust Badge -->
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-medical-100/80 border border-medical-200 text-medical-800 text-xs sm:text-sm font-semibold shadow-sm">
+                    <span class="flex h-2 w-2 rounded-full bg-medical-600"></span>
+                    {% if lang == 'bn' %}
+                    বাংলাদেশের কিশোরী ও নারীদের জন্য নিবেদিত হরমোন স্বাস্থ্যসেবা
+                    {% else %}
+                    Evidence-Based Hormonal Health Network for Women in Bangladesh
+                    {% endif %}
+                </div>
+
+                <h1 class="text-3xl sm:text-5xl lg:text-5xl font-black text-navy-900 tracking-tight leading-tight">
+                    {% if lang == 'bn' %}
+                    অনিয়মিত পিরিয়ড ও মেজাজের খিটখিটে ভাব? <br class="hidden sm:inline">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-medical-600 to-medical-800">PCOS ও PMS</span> এখন চিকিৎসায় নিয়ন্ত্রণযোগ্য!
+                    {% else %}
+                    Irregular Periods & Severe Mood Swings? <br class="hidden sm:inline">
+                    Take Control of <span class="text-transparent bg-clip-text bg-gradient-to-r from-medical-600 to-medical-800">PCOS & PMS</span> with Clinical Care.
+                    {% endif %}
+                </h1>
+
+                <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl">
+                    {% if lang == 'bn' %}
+                    লজ্জা বা ভয় নয়! রটারডাম গাইডলাইন অনুযায়ী আমাদের ফ্রি ডিজিটাল স্ক্রিনিং দিয়ে আপনার ঝুঁকি যাচাই করুন। ঢাকার স্কয়ার, পপুলার, ইবনে সিনাসহ দেশের শীর্ষ হাসপাতালের গাইনি ও হরমোন বিশেষজ্ঞদের সাথে অফলাইন ও অনলাইন চেম্বার কনসালটেশন নিন।
+                    {% else %}
+                    Break the silence. Identify your clinical risk through our Rotterdam-guided screening, connect with verified Bangladeshi gynecologists and endocrinologists, and book initial diagnostic tests with exclusive healthcare discounts.
+                    {% endif %}
+                </p>
+
+                <!-- Dual CTAs -->
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+                    <a href="{% url 'screening' %}" class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-base font-bold text-white bg-gradient-to-r from-medical-600 to-medical-700 hover:from-medical-700 hover:to-medical-800 shadow-lg shadow-medical-600/30 transition transform hover:-translate-y-0.5 active:translate-y-0 text-center">
+                        <i class="fa-solid fa-stethoscope text-lg"></i>
+                        {% if lang == 'bn' %}ফ্রি PCOS ও PMS লক্ষণ পরীক্ষা করুন{% else %}Start Free Clinical Assessment{% endif %}
+                    </a>
+                    <a href="{% url 'doctors_list' %}" class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-base font-bold text-medical-800 bg-white border-2 border-medical-200 hover:border-medical-400 hover:bg-medical-50/50 shadow-sm transition text-center">
+                        <i class="fa-solid fa-user-doctor text-medical-600"></i>
+                        {% if lang == 'bn' %}ডাক্তার খুঁজুন ও চেম্বার বুক করুন{% else %}Find Specialist Doctors{% endif %}
+                    </a>
+                </div>
+
+                <!-- Verified Stats Bar (Bangladesh Focus) -->
+                <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-200/80">
+                    <div class="space-y-0.5">
+                        <div class="text-2xl sm:text-3xl font-black text-medical-700">১ জনে ৫</div>
+                        <div class="text-xs sm:text-sm text-slate-500 font-medium">
+                            {% if lang == 'bn' %}তরুণী PCOS আক্রান্ত{% else %}Women with PCOS in BD{% endif %}
+                        </div>
+                    </div>
+                    <div class="space-y-0.5">
+                        <div class="text-2xl sm:text-3xl font-black text-medical-700">৭০%+</div>
+                        <div class="text-xs sm:text-sm text-slate-500 font-medium">
+                            {% if lang == 'bn' %}সচেতনতার অভাবে অপ্রকাশিত{% else %}Cases Undiagnosed{% endif %}
+                        </div>
+                    </div>
+                    <div class="space-y-0.5">
+                        <div class="text-2xl sm:text-3xl font-black text-emerald-600">২০% ছাড়</div>
+                        <div class="text-xs sm:text-sm text-slate-500 font-medium">
+                            {% if lang == 'bn' %}পার্টনার ল্যাব টেস্টে ভাউচার{% else %}Discount at Partner Labs{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Hero Visual with Realistic Medical Photography -->
+            <div class="lg:col-span-5 relative">
+                <div class="relative mx-auto max-w-md lg:max-w-none">
+                    <!-- Decorative backdrops -->
+                    <div class="absolute -top-4 -left-4 w-72 h-72 bg-medical-200/50 rounded-3xl filter blur-2xl opacity-70"></div>
+                    <div class="absolute -bottom-4 -right-4 w-72 h-72 bg-cyan-200/40 rounded-3xl filter blur-2xl opacity-70"></div>
+                    
+                    <!-- Main Image Card -->
+                    <div class="relative rounded-3xl overflow-hidden border-4 border-white shadow-2xl bg-white">
+                        <img src="{% static 'img/hero_doctor.jpg' %}" 
+     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551601651-2a8555f1a136?auto=format&fit=crop&w=900&q=80';"
+     alt="Bangladeshi Female Doctor Consultation" 
+     class="w-full h-[400px] object-cover object-top">
+                        
+                        <div class="p-5 bg-white">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                                    <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                        {% if lang == 'bn' %}আজকের চেম্বার খোলা{% else %}Chambers Open Today{% endif %}
+                                    </span>
+                                </div>
+                                <span class="text-xs font-semibold bg-medical-100 text-medical-800 px-2.5 py-0.5 rounded-full">
+                                    ঢাকা • চট্টগ্রাম • সিলেট
+                                </span>
+                            </div>
+                            <p class="text-xs text-slate-600 font-medium leading-relaxed">
+                                {% if lang == 'bn' %}
+                                "পিসিওএস বা পিএমএস কোনো স্থায়ী বন্ধ্যাত্ব নয়। সঠিক খাদ্যাভ্যাস ও প্রাথমিক টেস্টের মাধ্যমে সম্পূর্ণ স্বাভাবিক মা হওয়া সম্ভব।"
+                                {% else %}
+                                "PCOS is not permanent infertility. Early diagnosis, insulin management, and lifestyle reversing make motherhood achievable."
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Floating Fast Check Badge -->
+                    <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3 max-w-xs animate-bounce-short">
+                        <div class="w-10 h-10 rounded-xl bg-medical-600 flex items-center justify-center text-white shrink-0">
+                            <i class="fa-solid fa-notes-medical text-lg"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold text-slate-800">
+                                {% if lang == 'bn' %}৩ মিনিটে ফলাফল{% else %}3-Min Quick Assessment{% endif %}
+                            </div>
+                            <div class="text-[11px] text-slate-500">
+                                {% if lang == 'bn' %}রটারডাম প্রোটোকল ভিত্তিক রিপোর্ট{% else %}Rotterdam Diagnostic Model{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Quick Symptoms Awareness Grid: What are PCOS and PMS? -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+            <h2 class="text-xs font-bold uppercase tracking-widest text-medical-600 mb-2">
+                {% if lang == 'bn' %}লক্ষণ সনাক্তকরণ{% else %}Symptom Recognition{% endif %}
+            </h2>
+            <h3 class="text-2xl sm:text-4xl font-extrabold text-navy-900">
+                {% if lang == 'bn' %}আপনি কি নিচের লক্ষণগুলোর সম্মুখীন হচ্ছেন?{% else %}Are You Experiencing Any of These Symptoms?{% endif %}
+            </h3>
+            <p class="text-slate-500 mt-3 text-sm sm:text-base">
+                {% if lang == 'bn' %}
+                পিসিওএস (PCOS) ও পিএমএস (PMS) কেবল সাধারণ শারীরিক সমস্যা নয়, এটি হরমোনের গুরুতর ভারসাম্যহীনতা যা যথাসময়ে চিকিৎসা না নিলে দীর্ঘমেয়াদী জটিলতা সৃষ্টি করতে পারে।
+                {% else %}
+                PCOS and PMS are biological hormonal disruptions, not personal weaknesses. Early recognition is the critical first step to reversing symptoms.
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1: Irregular Cycle -->
+            <div class="group bg-slate-50 hover:bg-medical-50/60 rounded-2xl p-6 border border-slate-200/80 hover:border-medical-300 transition-all duration-300 shadow-sm hover:shadow-md">
+                <div class="w-14 h-14 rounded-2xl bg-medical-100 text-medical-700 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-calendar-xmark"></i>
+                </div>
+                <h4 class="text-lg font-bold text-slate-900 mb-2">
+                    {% if lang == 'bn' %}মাসিকের মারাত্মক অনিয়ম{% else %}Irregular Menstrual Cycles{% endif %}
+                </h4>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    {% if lang == 'bn' %}
+                    ৩৫ দিনের বেশি সময় পর পর পিরিয়ড হওয়া, ২-৩ মাস বন্ধ থাকা কিংবা অতিরিক্ত ভারী রক্তক্ষরণ হওয়া পিসিওএস-এর প্রধান লক্ষণ।
+                    {% else %}
+                    Cycles longer than 35 days, missed periods for months (oligomenorrhea), or sudden abnormal heavy flow.
+                    {% endif %}
+                </p>
+            </div>
+
+            <!-- Card 2: Facial Hair & Acne -->
+            <div class="group bg-slate-50 hover:bg-medical-50/60 rounded-2xl p-6 border border-slate-200/80 hover:border-medical-300 transition-all duration-300 shadow-sm hover:shadow-md">
+                <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h4 class="text-lg font-bold text-slate-900 mb-2">
+                    {% if lang == 'bn' %}মুখে লোম ও সিস্টিক ব্রণ{% else %}Hirsutism & Severe Acne{% endif %}
+                </h4>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    {% if lang == 'bn' %}
+                    পুরুষ হরমোন (এন্ড্রোজেন) বৃদ্ধির কারণে চিবুক, থুতনি ও পেটে শক্ত কালো লোম গজানো এবং কানের নিচে জেদি ব্রণ দেখা দেওয়া।
+                    {% else %}
+                    Excessive coarse dark hair on chin, jawline, and chest due to elevated androgens, accompanied by deep cystic acne.
+                    {% endif %}
+                </p>
+            </div>
+
+            <!-- Card 3: Weight Gain & Dark Neck -->
+            <div class="group bg-slate-50 hover:bg-medical-50/60 rounded-2xl p-6 border border-slate-200/80 hover:border-medical-300 transition-all duration-300 shadow-sm hover:shadow-md">
+                <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-weight-scale"></i>
+                </div>
+                <h4 class="text-lg font-bold text-slate-900 mb-2">
+                    {% if lang == 'bn' %}ওজন বৃদ্ধি ও ঘাড়ে কালো দাগ{% else %}Stubborn Weight & Dark Neck{% endif %}
+                </h4>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    {% if lang == 'bn' %}
+                    ডায়েট করলেও তলপেটের চর্বি না কমা এবং ঘাড় ও বগলে ভেলভেটের মতো কালো ছোপ (Acanthosis Nigricans) যা ইনসুলিন রেজিস্ট্যান্স নির্দেশ করে।
+                    {% else %}
+                    Difficulty shedding visceral weight and velvety dark skin pigmentation around the neck folds (insulin resistance marker).
+                    {% endif %}
+                </p>
+            </div>
+
+            <!-- Card 4: PMS & PMDD Mood Swings -->
+            <div class="group bg-slate-50 hover:bg-medical-50/60 rounded-2xl p-6 border border-slate-200/80 hover:border-medical-300 transition-all duration-300 shadow-sm hover:shadow-md">
+                <div class="w-14 h-14 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <h4 class="text-lg font-bold text-slate-900 mb-2">
+                    {% if lang == 'bn' %}তীব্র মেজাজ খিটখিটে ও পিএমএস{% else %}Severe PMS & PMDD Turmoil{% endif %}
+                </h4>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    {% if lang == 'bn' %}
+                    মাসিকের ৭-১০ দিন আগে হঠাৎ অকারণে তীব্র কান্না, রাগ, অতিরিক্ত ক্লান্তি, পেট ফাঁপা এবং অসহ্য ক্র্যাম্প বা পেটে ব্যথা।
+                    {% else %}
+                    Severe emotional shifts, sudden crying spells, uncontrollable anger, debilitating cramps, and premenstrual dysphoria.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!-- Take Screening Banner Callout -->
+        <div class="mt-12 text-center">
+            <a href="{% url 'screening' %}" class="inline-flex items-center gap-2 font-bold text-medical-700 hover:text-medical-800 text-base underline underline-offset-4 decoration-2">
+                {% if lang == 'bn' %}আপনার লক্ষণগুলো মূল্যায়ন করতে এখনই আমাদের পূর্ণাঙ্গ স্ক্রিনিং পরীক্ষা দিন &rarr;{% else %}Complete our full clinical assessment to generate your personalized report &rarr;{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Clinical Care Pathway: 3 Simple Steps -->
+<section class="py-16 bg-slate-50 border-y border-slate-200/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-navy-900">
+                {% if lang == 'bn' %}SheCare প্ল্যাটফর্মে যেভাবে সমাধান পাবেন{% else %}Your Path to Hormonal Health on SheCare{% endif %}
+            </h3>
+            <p class="text-slate-500 text-sm sm:text-base mt-2">
+                {% if lang == 'bn' %}স্ক্রিনিং থেকে শুরু করে ডাক্তার পরামর্শ ও ল্যাব টেস্টের সহজ ৩টি ধাপ{% else %}A complete clinical cycle from digital assessment to offline clinic care{% endif %}
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Step 1 -->
+            <div class="bg-white p-8 rounded-2xl border border-slate-200/90 shadow-sm relative">
+                <span class="absolute top-6 right-6 text-4xl font-black text-slate-100">০১</span>
+                <div class="w-12 h-12 rounded-xl bg-medical-50 text-medical-700 flex items-center justify-center text-xl font-bold mb-5 border border-medical-200">
+                    <i class="fa-solid fa-list-check"></i>
+                </div>
+                <h4 class="text-xl font-bold text-slate-900 mb-3">
+                    {% if lang == 'bn' %}১. লক্ষণ পরীক্ষা ও ডিজিটাল রিপোর্ট{% else %}1. Take Screening & Get Report{% endif %}
+                </h4>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    {% if lang == 'bn' %}
+                    আপনার মাসিকের ধরন, ত্বক ও হরমোনের লক্ষণগুলোর তথ্য দিন। তাৎক্ষণিকভাবে আপনার PCOS ও PMS ঝুঁকির বিশদ রিপোর্ট এবং প্রেসক্রাইবড প্রাথমিক টেস্টের তালিকা পান।
+                    {% else %}
+                    Enter your menstrual regularity, skin and metabolic parameters. Receive instant clinical risk stratification and recommended initial diagnostic panel.
+                    {% endif %}
+                </p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="bg-white p-8 rounded-2xl border border-slate-200/90 shadow-sm relative">
+                <span class="absolute top-6 right-6 text-4xl font-black text-slate-100">০২</span>
+                <div class="w-12 h-12 rounded-xl bg-medical-50 text-medical-700 flex items-center justify-center text-xl font-bold mb-5 border border-medical-200">
+                    <i class="fa-solid fa-hospital-user"></i>
+                </div>
+                <h4 class="text-xl font-bold text-slate-900 mb-3">
+                    {% if lang == 'bn' %}২. অফলাইন ল্যাব টেস্ট ও ডাক্তার কনসালটেশন{% else %}2. Offline Lab Tests & Doctor Chamber{% endif %}
+                </h4>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    {% if lang == 'bn' %}
+                    পপুলার, স্কয়ার, ইবনে সিনা বা এভারকেয়ার হাসপাতালে ২০% ছাড়ে আল্ট্রাসনোগ্রাম ও হরমোন টেস্টের ভাউচার নিন এবং শীর্ষ গাইনি ডাক্তারের অফলাইন বা অনলাইন চেম্বার বুক করুন।
+                    {% else %}
+                    Access 20% discounted USG & hormone tests at Popular, Square, or Ibn Sina. Book in-person hospital chamber or secure video consultations.
+                    {% endif %}
+                </p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="bg-white p-8 rounded-2xl border border-slate-200/90 shadow-sm relative">
+                <span class="absolute top-6 right-6 text-4xl font-black text-slate-100">০৩</span>
+                <div class="w-12 h-12 rounded-xl bg-medical-50 text-medical-700 flex items-center justify-center text-xl font-bold mb-5 border border-medical-200">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <h4 class="text-xl font-bold text-slate-900 mb-3">
+                    {% if lang == 'bn' %}৩. দেশি ডায়েট ও সুস্থ জীবনধারা{% else %}3. Desi Diet, Seed Cycling & Remission{% endif %}
+                </h4>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    {% if lang == 'bn' %}
+                    আমাদের স্মার্ট হরমোন সাইকেল ট্র্যাকার ও দেশি খাবার মিল প্ল্যানার ব্যবহার করে লাল চাল, মেথি পানি এবং সিড সাইক্লিং-এর মাধ্যমে হরমোন ব্যালেন্স অর্জন করুন।
+                    {% else %}
+                    Adopt personalized Bangladeshi anti-inflammatory meals, seed cycling routines, and stress management tools to achieve symptom remission.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Specialist Doctors Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-medical-600 mb-2">
+                    {% if lang == 'bn' %}অভিজ্ঞ মেডিকেল বোর্ড{% else %}Verified Medical Board{% endif %}
+                </h2>
+                <h3 class="text-2xl sm:text-4xl font-extrabold text-navy-900">
+                    {% if lang == 'bn' %}বাংলাদেশের শীর্ষ গাইনি ও হরমোন বিশেষজ্ঞগণ{% else %}Leading Gynecologists & Endocrinologists in Bangladesh{% endif %}
+                </h3>
+                <p class="text-slate-500 text-sm mt-1">
+                    {% if lang == 'bn' %}ঢাকা, চট্টগ্রাম ও সিলেটের সেরা হাসপাতালের চেম্বারে পরামর্শ নিন{% else %}Consult at top hospitals in Dhaka, Chittagong, and Sylhet{% endif %}
+                </p>
+            </div>
+            <a href="{% url 'doctors_list' %}" class="inline-flex items-center gap-2 font-bold text-sm text-medical-700 hover:text-medical-800 bg-medical-50 px-4 py-2.5 rounded-xl border border-medical-200 transition">
+                {% if lang == 'bn' %}সকল ডাক্তার দেখুন{% else %}View All Specialists{% endif %}
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for doctor in doctors %}
+            <div class="bg-white rounded-2xl border border-slate-200/90 hover:border-medical-300 shadow-sm hover:shadow-lg transition flex flex-col justify-between overflow-hidden group">
+                <div>
+                    <!-- Doctor Photo -->
+                    <div class="relative h-56 bg-slate-100 overflow-hidden">
+                        <img src="{{ doctor.photo_url }}" 
+                             alt="{{ doctor.name }}" 
+                             class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-bold text-amber-600 shadow-sm flex items-center gap-1">
+                            <i class="fa-solid fa-star text-amber-400"></i> {{ doctor.rating }}
+                        </span>
+                        <span class="absolute bottom-3 left-3 bg-medical-900/90 text-white text-[11px] font-semibold px-2.5 py-1 rounded-lg backdrop-blur-sm">
+                            {{ doctor.specialty.name }}
+                        </span>
+                    </div>
+
+                    <!-- Details -->
+                    <div class="p-5 space-y-2">
+                        <h4 class="text-lg font-bold text-slate-900 leading-snug group-hover:text-medical-700 transition">
+                            {% if lang == 'bn' and doctor.name_bn %}{{ doctor.name_bn }}{% else %}{{ doctor.name }}{% endif %}
+                        </h4>
+                        <p class="text-xs text-medical-700 font-semibold line-clamp-1">
+                            {{ doctor.degrees }}
+                        </p>
+                        <p class="text-xs text-slate-500 line-clamp-2">
+                            <i class="fa-solid fa-hospital text-slate-400 mr-1"></i>{{ doctor.hospital_affiliation }}
+                        </p>
+                        <div class="text-xs text-slate-600 pt-2 border-t border-slate-100 flex items-center justify-between">
+                            <span>{% if lang == 'bn' %}চেম্বার ফি:{% else %}Fee:{% endif %} <strong class="text-navy-900 font-bold">৳{{ doctor.consultation_fee|floatformat:0 }}</strong></span>
+                            <span class="text-emerald-600 font-medium text-[11px]"><i class="fa-solid fa-circle-check"></i> ভেরিফাইড</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-5 pt-0">
+                    <a href="{% url 'book_appointment' doctor.id %}" class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-white bg-medical-600 hover:bg-medical-700 shadow-sm transition">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        {% if lang == 'bn' %}চেম্বার বুক করুন{% else %}Book Chamber{% endif %}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Diagnostic Tests & Lab Voucher Showcase -->
+<section class="py-16 bg-gradient-to-b from-slate-50 to-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-5 space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-100 text-cyan-800 text-xs font-bold">
+                    <i class="fa-solid fa-tag"></i>
+                    {% if lang == 'bn' %}২০% স্পেশাল ডায়াগনস্টিক ভাউচার{% else %}20% Partner Lab Discount{% endif %}
+                </div>
+                <h3 class="text-2xl sm:text-4xl font-extrabold text-navy-900 leading-tight">
+                    {% if lang == 'bn' %}
+                    ডাক্তার দেখানোর আগে প্রয়োজনীয় প্রাথমিক টেস্টসমূহ
+                    {% else %}
+                    Essential Diagnostic Tests for PCOS & Hormonal Evaluation
+                    {% endif %}
+                </h3>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    {% if lang == 'bn' %}
+                    সঠিক ডায়াগনোসিসের জন্য আল্ট্রাসনোগ্রাম ও হরমোন টেস্ট অপরিহার্য। পপুলার, স্কয়ার, ইবনে সিনা ও এভারকেয়ার হাসপাতালে আমাদের কুপন কোড <code class="bg-cyan-100 text-cyan-900 font-bold px-1.5 py-0.5 rounded">SHECARE20</code> ব্যবহার করে ২০% ছাড়ে ল্যাব বুক করুন।
+                    {% else %}
+                    A proper clinical diagnosis requires pelvis ultrasound morphology and exact morning hormone sampling. Book with voucher <code class="bg-cyan-100 text-cyan-900 font-bold px-1.5 py-0.5 rounded">SHECARE20</code> at accredited hospitals across Bangladesh.
+                    {% endif %}
+                </p>
+                <div class="flex items-center gap-4">
+                    <a href="{% url 'diagnostic_tests' %}" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-navy-900 hover:bg-slate-800 shadow transition">
+                        <i class="fa-solid fa-flask-vial"></i>
+                        {% if lang == 'bn' %}টেস্ট প্যাকেজ ও ল্যাব বুকিং{% else %}Book Diagnostic Tests{% endif %}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Diagnostic Tests Cards -->
+            <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {% for test in tests %}
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                        <span class="text-[11px] font-bold uppercase tracking-wider bg-medical-50 text-medical-700 px-2.5 py-0.5 rounded-md border border-medical-200">
+                            {{ test.code }}
+                        </span>
+                        <div class="text-right">
+                            <span class="text-xs text-slate-400 line-through">৳{{ test.standard_price_bdt|floatformat:0 }}</span>
+                            <span class="text-sm font-black text-emerald-600 block">৳{{ test.discounted_price_bdt|floatformat:0 }}</span>
+                        </div>
+                    </div>
+                    <h5 class="text-sm font-bold text-slate-900 mb-1 leading-snug">
+                        {% if lang == 'bn' and test.name_bn %}{{ test.name_bn }}{% else %}{{ test.name }}{% endif %}
+                    </h5>
+                    <p class="text-xs text-slate-500 line-clamp-2 mb-3">
+                        {% if lang == 'bn' and test.purpose_bn %}{{ test.purpose_bn }}{% else %}{{ test.purpose }}{% endif %}
+                    </p>
+                    <div class="text-[11px] text-slate-600 bg-slate-50 p-2 rounded-lg border border-slate-100">
+                        <i class="fa-solid fa-circle-exclamation text-amber-500 mr-1"></i>
+                        <span class="line-clamp-1">{{ test.preparation_instructions }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Unique Features Hub Highlight -->
+<section class="py-16 bg-navy-900 text-white relative overflow-hidden">
+    <!-- Glow effects -->
+    <div class="absolute -top-40 -right-40 w-96 h-96 bg-medical-500/20 rounded-full filter blur-3xl"></div>
+    <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-cyan-500/20 rounded-full filter blur-3xl"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+            <span class="text-xs font-bold text-cyan-400 uppercase tracking-widest bg-cyan-950/80 px-3 py-1 rounded-full border border-cyan-800">
+                {% if lang == 'bn' %}অনন্য বৈজ্ঞানিক ফিচারসমূহ{% else %}Specialized Healthcare Features{% endif %}
+            </span>
+            <h3 class="text-2xl sm:text-4xl font-extrabold text-white mt-4">
+                {% if lang == 'bn' %}আপনার হরমোন নিয়ন্ত্রণে স্মার্ট ডিজিটাল টুলস{% else %}Smart Digital Tools Built for Bangladeshi Women{% endif %}
+            </h3>
+            <p class="text-slate-300 text-sm sm:text-base mt-2">
+                {% if lang == 'bn' %}মাসিক চক্র অনুসারে দেশি খাবার নির্বাচন, হরমোন ফেজ ট্র্যাকিং এবং সম্পূর্ণ গোপন প্রশ্নোত্তর{% else %}Cycle phase synchronization, local Bangladeshi meal glycemic tracking, and safe-space Q&A{% endif %}
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Feature 1: Cycle Phase Sync -->
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-7 hover:border-medical-400 transition-all">
+                <div class="w-14 h-14 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-2xl mb-6">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <h4 class="text-xl font-bold text-white mb-2">
+                    {% if lang == 'bn' %}স্মার্ট সাইকেল ও ফেজ ট্র্যাকার{% else %}Cycle & Hormone Phase Sync{% endif %}
+                </h4>
+                <p class="text-sm text-slate-300 leading-relaxed mb-6">
+                    {% if lang == 'bn' %}
+                    আপনার শেষ পিরিয়ডের তারিখ দিন। সিস্টেম জানিয়ে দেবে আপনি কোন হরমোন ফেজে আছেন (ফলিকুলার, ওভুলেশন, লুটিয়াল) এবং আজকের জন্য কোন দেশি খাবার ও ব্যায়াম উপযুক্ত।
+                    {% else %}
+                    Input your period date to discover your current hormonal phase with custom Desi meals, seed cycling timings, and workout recommendations.
+                    {% endif %}
+                </p>
+                <a href="{% url 'cycle_tracker' %}" class="inline-flex items-center gap-2 text-sm font-bold text-cyan-400 hover:text-cyan-300">
+                    {% if lang == 'bn' %}ট্র্যাকার চালু করুন{% else %}Open Tracker{% endif %} &rarr;
+                </a>
+            </div>
+
+            <!-- Feature 2: Desi Meal Planner -->
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-7 hover:border-medical-400 transition-all">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mb-6">
+                    <i class="fa-solid fa-bowl-food"></i>
+                </div>
+                <h4 class="text-xl font-bold text-white mb-2">
+                    {% if lang == 'bn' %}দেশি মিল ও পুষ্টি ক্যালকুলেটর{% else %}Desi PCOS Meal & GI Planner{% endif %}
+                </h4>
+                <p class="text-sm text-slate-300 leading-relaxed mb-6">
+                    {% if lang == 'bn' %}
+                    লাল চাল, দেশি শাকসবজি, ডিম ও মাছ দিয়ে আপনার সারাদিনের খাবার সাজান। সিস্টেম সাথে সাথে খাবারটির গ্লাইসেমিক ইনডেক্স ও হরমোন স্কোর গণনা করে দেবে।
+                    {% else %}
+                    Build your daily menu with Bangladeshi staples (Lal chal, korola, local fish, methi water) to optimize glycemic load and control insulin spikes.
+                    {% endif %}
+                </p>
+                <a href="{% url 'meal_planner' %}" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-400 hover:text-emerald-300">
+                    {% if lang == 'bn' %}মিল প্ল্যান করুন{% else %}Plan Your Meals{% endif %} &rarr;
+                </a>
+            </div>
+
+            <!-- Feature 3: SheHelps Safe Space -->
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-7 hover:border-medical-400 transition-all">
+                <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-2xl mb-6">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h4 class="text-xl font-bold text-white mb-2">
+                    {% if lang == 'bn' %}SheHelps ১০০% গোপন ফোরাম{% else %}SheHelps Anonymous Forum{% endif %}
+                </h4>
+                <p class="text-sm text-slate-300 leading-relaxed mb-6">
+                    {% if lang == 'bn' %}
+                    পরিবার বা সমাজে যে কথা বলতে দ্বিধা হয়, তা এখানে কোনো নাম প্রকাশ না করে জিজ্ঞাসা করুন। আমাদের রেজিস্টার্ড ডাক্তারগণ নিয়মিত প্রশ্নের উত্তর দিচ্ছেন।
+                    {% else %}
+                    Ask sensitive questions regarding menstrual irregularity, facial hair, intimacy, and fertility anonymously, answered by certified doctors.
+                    {% endif %}
+                </p>
+                <a href="{% url 'community' %}" class="inline-flex items-center gap-2 text-sm font-bold text-cyan-400 hover:text-cyan-300">
+                    {% if lang == 'bn' %}ফোরামে প্রশ্ন করুন{% else %}Ask in Safe Space{% endif %} &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Partner Medical Centers in Bangladesh -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-navy-900">
+                {% if lang == 'bn' %}অফলাইন পার্টনার মেডিকেল সেন্টার সমূহ{% else %}Our Offline Medical Center Network{% endif %}
+            </h3>
+            <p class="text-slate-500 text-sm mt-1">
+                {% if lang == 'bn' %}ঢাকা, চট্টগ্রাম, সিলেট ও রাজশাহীর শীর্ষ স্বাস্থ্যসেবা কেন্দ্রে অফলাইন পরামর্শ ও টেস্ট সুবিধা{% else %}Accredited diagnostic hubs in Dhaka, Chittagong, Sylhet, and Rajshahi{% endif %}
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for center in medical_centers %}
+            <div class="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden hover:shadow-md transition">
+                <img src="{{ center.image_url }}" alt="{{ center.name }}" class="w-full h-36 object-cover">
+                <div class="p-5 space-y-2">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="font-bold text-medical-700 bg-medical-100 px-2 py-0.5 rounded">{{ center.city }}</span>
+                        <span class="font-semibold text-emerald-600"><i class="fa-solid fa-percent"></i> {{ center.discount_percentage }}% ছাড়</span>
+                    </div>
+                    <h5 class="font-bold text-slate-900 text-sm leading-snug">{{ center.name }}</h5>
+                    <p class="text-xs text-slate-500 line-clamp-1">{{ center.branch_name }}</p>
+                    <p class="text-xs text-slate-600 font-medium pt-1">
+                        <i class="fa-solid fa-phone text-slate-400 mr-1"></i> {{ center.phone }}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Final CTA Banner -->
+<section class="py-14 bg-gradient-to-r from-medical-700 via-medical-600 to-medical-800 text-white text-center">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <h3 class="text-2xl sm:text-4xl font-black">
+            {% if lang == 'bn' %}
+            লক্ষণ লুকিয়ে রাখবেন না, সচেতনতাই সুস্থতার প্রথম চাবিকাঠি
+            {% else %}
+            Don't Let Hormonal Imbalance Steal Your Confidence
+            {% endif %}
+        </h3>
+        <p class="text-medical-100 text-sm sm:text-base max-w-2xl mx-auto">
+            {% if lang == 'bn' %}
+            মাত্র ৩ মিনিটে সম্পন্ন করুন আমাদের বৈজ্ঞানিক PCOS ও PMS স্ক্রিনিং এবং আপনার রিপোর্ট নিয়ে প্রস্তুত হোন সঠিক চিকিৎসার জন্য।
+            {% else %}
+            Take our 3-minute comprehensive clinical assessment and generate an official requisition report ready for your physician.
+            {% endif %}
+        </p>
+        <div class="pt-2">
+            <a href="{% url 'screening' %}" class="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-base font-bold text-medical-900 bg-white hover:bg-slate-100 shadow-xl transition transform hover:scale-105 active:scale-95">
+                <i class="fa-solid fa-heart-pulse text-medical-600"></i>
+                {% if lang == 'bn' %}বিনামূল্যে স্ক্রিনিং শুরু করুন{% else %}Take Free Screening Now{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
